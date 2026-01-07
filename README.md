@@ -33,22 +33,14 @@ docker compose up
 http://localhost:8089/swagger
 ```
 
-# Postgres
+# Passwort für den User John erzeugen
 
-```
+Um ein gültiges App-Passwort für john zu generieren:
 
-### Intellij-Ansicht für Postgres Datenbank einrichten
-
-```bash
-1. Lasse den Docker-Container mit den Abhängigkeiten laufen
-2. rechts im Fenster den Reiter Database öffnen
-3. In der Database-Symbolleiste auf das Datenbanksymbol mit dem Schlüssel klicken
-4. auf das Pluszeichen klicken
-5. Datasource from URL auswählen
-6. URL der DB einfügen (jdbc:postgresql://localhost:5432/employee_db) und PostgreSQL-Treiber auswählen, mit OK bestätigen
-7. Username lf10_starter und Passwort secret eintragen (siehe application.properties), mit Apply bestätigen
-8. im Reiter Schemas alle Häkchen entfernen und lediglich vor lf10_starter_db und public Häkchen setzen
-9. mit Apply und ok bestätigen 
-```
+1. Melden Sie sich als Administrator unter localhost:9000 (a@b.com / secret)
+2. Auf der Kachel employee_api -> more Details --> edit
+3. Links auf Directory --> Users
+4. Klicken Sie auf den User john
+5. Klicken Sie auf Set Password und setzen Sie ein Passwort.
 
 
