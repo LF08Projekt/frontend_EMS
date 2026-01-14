@@ -5,8 +5,8 @@ import {UnsecuredFoo} from "./pages/UnsecuredFoo.tsx";
 import {SecuredBar} from "./pages/SecuredBar.tsx";
 import {Home} from "./pages/Home.tsx";
 import RequireAuth from "./auth/RequireAuth.tsx";
-import {EmployeeTable} from "./pages/EmployeeTable.tsx";
-import LoginPage from "./pages/LoginPage.tsx";
+import EmployeeTable from "./pages/EmployeeTable.tsx";
+import AddEmployeePage from "./pages/AddEmployeePage.tsx";
 
 function App() {
 
@@ -22,7 +22,6 @@ function App() {
                             <Nav.Link as={Link} to="/foo">Foo</Nav.Link>
                             <Nav.Link as={Link} to="/bar">Bar</Nav.Link>
                             <Nav.Link as={Link} to="/employees">Mitarbeiter</Nav.Link>
-                            <Nav.Link as={Link} to="/login">Login</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -40,9 +39,7 @@ function App() {
                         <EmployeeTable/>
                     </RequireAuth>
                 }/>
-                <Route path="/login" element={<LoginPage onLogin={function(): void {
-                    throw new Error("Function not implemented.");
-                } }/>}/>
+                <Route path="/addemployee" element={<AddEmployeePage/>}/>
             </Routes>
         </Container>
     )
