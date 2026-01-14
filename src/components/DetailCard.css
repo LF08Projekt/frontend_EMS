@@ -1,0 +1,142 @@
+.detail-card-modal .modal-content {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.detail-card-header {
+    border: none;
+    padding: 0;
+}
+
+.detail-card-body {
+    padding: 40px 30px;
+    background: linear-gradient(135deg, #f5f5f5 0%, #efefef 100%);
+}
+
+.detail-card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Avatar Section */
+.avatar-section {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.avatar-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b92a9 0%, #7a8499 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.edit-btn {
+    position: absolute;
+    bottom: 5px;
+    right: -10px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #6b7684;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: background 0.3s ease;
+}
+
+.edit-btn:hover {
+    background: #5a6573;
+}
+
+/* Employee Info Section */
+.employee-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    width: 100%;
+}
+
+.info-row:last-child {
+    grid-template-columns: 1fr;
+}
+
+.info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.info-column label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-column p {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+/* Qualifications Section */
+.qualifications-section {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.qualifications-section label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.qualification-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Modal close button styling */
+.detail-card-modal .btn-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.detail-card-modal .btn-close:hover {
+    opacity: 1;
+}
