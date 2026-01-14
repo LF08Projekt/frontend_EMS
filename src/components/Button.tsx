@@ -5,7 +5,6 @@ import type { Employee } from "../types/employees";
 import editIcon from "../assets/edit.svg.png";
 import deleteIcon from "../assets/delete.svg.png";
 
-
 interface PrimaryButtonProps {
     label: string;
     onClick?: () => void;
