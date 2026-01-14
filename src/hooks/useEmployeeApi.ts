@@ -2,6 +2,8 @@ import {useAuth} from "react-oidc-context";
 import {useState} from "react";
 import type {CreateEmployeeDto, Employee, Qualification} from "../types/employee.ts";
 
+
+//Nochmal testen!
 export function useEmployeeApi() {
     const auth = useAuth();
     const [loading, setLoading] = useState(false);

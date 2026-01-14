@@ -26,3 +26,5 @@ export interface CreateEmployeeDto {
     phone: string;
     skillSet: Qualification[]; // kann leer sein, [] erlaubt
 }
+
+//Alles nochmal testen
