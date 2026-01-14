@@ -197,8 +197,8 @@ export function useEmployeeApi() {
     };
     const addQualificationToEmployee = async (
         employeeId: number,
-        qualification: Qualification
-    ): Promise<Qualification | null> => {
+        qualificationName: string
+    ): Promise<any> => {
         setLoading(true);
         setError(null);
 
@@ -208,7 +208,7 @@ export function useEmployeeApi() {
                 {
                     method: "POST",
                     headers: getAuthHeaders(),
-                    body: JSON.stringify(qualification),
+                    body: JSON.stringify({skill: qualificationName})
                 }
             );
 
@@ -218,13 +218,11 @@ export function useEmployeeApi() {
             }
 
             return await response.json();
-        } catch (err) {
-            setError(err instanceof Error ? err.message : "Ein Fehler ist aufgetreten");
-            return null;
         } finally {
             setLoading(false);
         }
     };
+
     const removeQualificationFromEmployee = async (
         employeeId: number,
         qualificationId: number
@@ -247,13 +245,11 @@ export function useEmployeeApi() {
             }
 
             return true;
-        } catch (err) {
-            setError(err instanceof Error ? err.message : "Ein Fehler ist aufgetreten");
-            return false;
         } finally {
             setLoading(false);
         }
     };
+
 
     return {
         fetchEmployees,
