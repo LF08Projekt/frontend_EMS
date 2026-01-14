@@ -103,3 +103,42 @@ body {
 .confirm-delete-button:hover {
   background-color: #4d4d4d;
 }
+
+/* Qualification Tags */
+.qualification-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.qualification-tag {
+  background-color: #565E6D;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.qualification-tag.secondary {
+  background-color: #6C757D;
+}
+
+.qualification-tag.success {
+  background-color: #28A745;
+}
+
+.qualification-tag.danger {
+  background-color: #DC3545;
+}
+
+.qualification-tag.warning {
+  background-color: #FFC107;
+  color: #000;
+}
+
+.qualification-tag.info {
+  background-color: #17A2B8;
+}

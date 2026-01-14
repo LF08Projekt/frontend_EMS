@@ -6,6 +6,7 @@ import { mockEmployees } from "../data/mockEployees.ts";
 import type { Employee } from "../types/employees";
 import { ActionButtons } from "../components/Button.tsx";
 import { DeleteModal } from "../components/Deletemodal.tsx";
+import Tag from "../components/Tag.tsx";
 // import { mock } from "node:test";
 
 
@@ -85,7 +86,13 @@ export function EmployeeTable() {
                         <td>{employee.lastName}</td>
                         <td>{employee.department}</td>
                         <td>{employee.location}</td>
-                        <td>{employee.qualifications.join(", ")}</td>
+                        <td>
+                            <div className="qualification-tags">
+                                {employee.qualifications.map((qual, idx) => (
+                                    <Tag key={idx} label={qual} />
+                                ))}
+                            </div>
+                        </td>
                         <td>{employee.position}</td>
                         <td>
                             <ActionButtons 
