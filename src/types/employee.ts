@@ -10,10 +10,13 @@ export interface Employee {
     firstName: string;
     lastName: string;
     street: string;
+    HauseNumber: number;
     postcode: string;
     city: string;
     phone: string;
+    department: string;
     skillSet: Qualification[];
+
 }
 
 // Für POST(create) /employees weil hier keine ID übergeben wird
@@ -24,6 +27,7 @@ export interface CreateEmployeeDto {
     postcode: string;
     city: string;
     phone: string;
+    department: string;
     skillSet: Qualification[]; // kann leer sein, [] erlaubt
 }
 

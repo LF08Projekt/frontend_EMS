@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 import { Button, Spinner } from "react-bootstrap";
-import type { Employee } from "../types/employees";
+import type { Employee } from "../types/employee";
 import editIcon from "../assets/edit.svg.png";
 import deleteIcon from "../assets/delete.svg.png";
+
 
 interface PrimaryButtonProps {
     label: string;
