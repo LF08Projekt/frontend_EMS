@@ -12,4 +12,3 @@ export function SecuredBar() {
         </Container>
     )
 }
-//TESTLALA
