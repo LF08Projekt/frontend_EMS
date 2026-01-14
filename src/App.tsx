@@ -5,7 +5,8 @@ import {UnsecuredFoo} from "./pages/UnsecuredFoo.tsx";
 import {SecuredBar} from "./pages/SecuredBar.tsx";
 import {Home} from "./pages/Home.tsx";
 import RequireAuth from "./auth/RequireAuth.tsx";
-import {EmployeeTable} from "./pages/EmployeeTable.tsx";
+import EmployeeTable from "./pages/EmployeeTable.tsx";
+import AddEmployeePage from "./pages/AddEmployeePage.tsx";
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
                         <EmployeeTable/>
                     </RequireAuth>
                 }/>
+                <Route path="/addemployee" element={<AddEmployeePage/>}/>
             </Routes>
         </Container>
     )

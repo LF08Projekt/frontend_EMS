@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Badge } from 'react-bootstrap';
-import { FaTrash, FaPen } from 'react-icons/fa';
+import {Button, Badge} from 'react-bootstrap';
+import {FaTrash, FaPen} from 'react-icons/fa';
 
 type Employee = {
     name: string;
@@ -14,7 +14,11 @@ type EmployeeListItemProps = {
     onDelete?: (employee: Employee) => void;
 };
 
-const EmployeeListItem: React.FC<EmployeeListItemProps> = ({ employee, onEdit, onDelete }) => {
+const EmployeeListItem: React.FC<EmployeeListItemProps> = ({
+                                                               employee,
+                                                               onEdit,
+                                                               onDelete
+                                                           }) => {
     return (
         <tr>
             <td>{employee.name}</td>
@@ -27,11 +31,13 @@ const EmployeeListItem: React.FC<EmployeeListItemProps> = ({ employee, onEdit, o
                 ))}
             </td>
             <td>
-                <Button variant="outline-dark" size="sm" className="me-2" onClick={() => onEdit?.(employee)}>
-                    <FaPen />
+                <Button variant="outline-dark" size="sm" className="me-2"
+                        onClick={() => onEdit?.(employee)}>
+                    <FaPen/>
                 </Button>
-                <Button variant="outline-danger" size="sm" onClick={() => onDelete?.(employee)}>
-                    <FaTrash />
+                <Button variant="outline-danger" size="sm"
+                        onClick={() => onDelete?.(employee)}>
+                    <FaTrash/>
                 </Button>
             </td>
         </tr>

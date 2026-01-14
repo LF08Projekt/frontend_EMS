@@ -1,13 +1,16 @@
-import {Button, Container, Table} from "react-bootstrap";
+import {Button, Container, Row, Table} from "react-bootstrap";
 import {useEmployeeApi} from "../hooks/useEmployeeApi.ts";
 import {useState} from "react";
 import EmployeeSearchBar from "../components/SearchBar.tsx";
 import { mockEmployees } from "../data/mockEployees.ts";
 import type { Employee } from "../types/employee";
 import { ActionButtons } from "../components/Button.tsx";
+import type { Employee } from "../types/employees";
+import {ActionButtons, PrimaryButton} from "../components/Button.tsx";
 import { DeleteModal } from "../components/Deletemodal.tsx";
 import Tag from "../components/Tag.tsx";
 import DetailCard from "../components/DetailCard.tsx";
+import {useNavigate} from "react-router-dom";
 // import { mock } from "node:test";
 
 
@@ -68,16 +71,26 @@ export function EmployeeTable() {
         setSelectedEmployee(null);
     }
 
+    const navigate = useNavigate();
+
+    const handleAddEmployee = () => {
+        navigate('/addemployee');
+    };
+
     if (error) {
         return <div> {error}</div>;
     }
 
+
     return (
         <Container>
             <EmployeeSearchBar onSearch={handleSearch} />
+            <Row className="mb-2">
             <Button onClick={handleLoadEmployees}>
                 Mitarbeiter laden
             </Button>
+            <PrimaryButton label={"Mitarbeiter hinzufügen"} onClick={handleAddEmployee}/>
+            </Row>
 
             <Table>
                 <thead>
@@ -118,7 +131,7 @@ export function EmployeeTable() {
                             </div>
                         </td>
                         <td onClick={(e) => e.stopPropagation()}>
-                            <ActionButtons 
+                            <ActionButtons
                                 employee={employee}
                                 onEdit={handleEdit}
                                 onDelete={handleDelete}
@@ -143,4 +156,7 @@ export function EmployeeTable() {
             />
         </Container>
     )
-};
+}
+
+export default EmployeeTable
+;
