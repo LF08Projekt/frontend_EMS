@@ -2,16 +2,15 @@ import {Button, Container, Row, Table} from "react-bootstrap";
 import {useEmployeeApi} from "../hooks/useEmployeeApi.ts";
 import {useState} from "react";
 import EmployeeSearchBar from "../components/SearchBar.tsx";
-import { mockEmployees } from "../data/mockEployees.ts";
-import type { Employee } from "../types/employee";
-import { ActionButtons } from "../components/Button.tsx";
-import type { Employee } from "../types/employees";
+import {mockEmployees} from "../data/mockEployees.ts";
+import type {Employee} from "../types/employee";
 import {ActionButtons, PrimaryButton} from "../components/Button.tsx";
-import { DeleteModal } from "../components/Deletemodal.tsx";
+import {DeleteModal} from "../components/Deletemodal.tsx";
 import Tag from "../components/Tag.tsx";
 import DetailCard from "../components/DetailCard.tsx";
 import {useNavigate} from "react-router-dom";
-// import { mock } from "node:test";
+
+
 
 
 export function EmployeeTable() {
@@ -30,11 +29,11 @@ export function EmployeeTable() {
     const handleSearch = (query: string) => {
         console.log("Search query:", query);
         // Filter mock data based on search query
-        const filtered = mockEmployees.filter(emp => 
+        const filtered = mockEmployees.filter(emp =>
             emp.firstName.toLowerCase().includes(query.toLowerCase()) ||
             emp.lastName.toLowerCase().includes(query.toLowerCase()) ||
             emp.city.toLowerCase().includes(query.toLowerCase())
-            );
+        );
         setEmployees(filtered);
     }
 
@@ -84,12 +83,12 @@ export function EmployeeTable() {
 
     return (
         <Container>
-            <EmployeeSearchBar onSearch={handleSearch} />
+            <EmployeeSearchBar onSearch={handleSearch}/>
             <Row className="mb-2">
-            <Button onClick={handleLoadEmployees}>
-                Mitarbeiter laden
-            </Button>
-            <PrimaryButton label={"Mitarbeiter hinzufügen"} onClick={handleAddEmployee}/>
+                <Button onClick={handleLoadEmployees}>
+                    Mitarbeiter laden
+                </Button>
+                <PrimaryButton label={"Mitarbeiter hinzufügen"} onClick={handleAddEmployee}/>
             </Row>
 
             <Table>
@@ -106,13 +105,16 @@ export function EmployeeTable() {
                 </thead>
                 <tbody>
                 {employees.map((employee, index) => (
-                    <tr key={index} onClick={() => handleRowClick(employee)} style={{ cursor: 'pointer' }} className="employee-row">
+                    <tr key={index} onClick={() => handleRowClick(employee)} style={{cursor: 'pointer'}}
+                        className="employee-row">
                         <td>
                             <div className="table-avatar">
                                 {employee.photo ? (
-                                    <img src={employee.photo} alt={`${employee.firstName} ${employee.lastName}`} className="table-avatar-img" />
+                                    <img src={employee.photo} alt={`${employee.firstName} ${employee.lastName}`}
+                                         className="table-avatar-img"/>
                                 ) : (
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8b92a9" strokeWidth="1.5">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8b92a9"
+                                         strokeWidth="1.5">
                                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                         <circle cx="12" cy="7" r="4"></circle>
                                     </svg>
@@ -126,7 +128,7 @@ export function EmployeeTable() {
                         <td>
                             <div className="qualification-tags">
                                 {employee.skillSet.map((qual, idx) => (
-                                    <Tag key={idx} label={qual.skill} />
+                                    <Tag key={idx} label={qual.skill}/>
                                 ))}
                             </div>
                         </td>
