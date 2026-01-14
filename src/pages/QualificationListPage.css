@@ -1,0 +1,115 @@
+.qualification-page {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+.qualification-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.qualification-breadcrumbs {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+}
+
+.crumb {
+    font-size: 18px;
+}
+
+.crumb.muted {
+    opacity: 0.55;
+    font-weight: 600;
+}
+
+.crumb.active {
+    font-weight: 800;
+}
+
+.qualification-header-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+}
+
+.qualification-header-actions > * {
+    width: 100%;
+}
+
+.add-under-button {
+    width: 100%;
+}
+
+.add-under-button .form-control {
+    padding: 6px 10px;
+    font-size: 14px;
+}
+
+.add-under-button .btn {
+    padding: 6px 10px;
+}
+
+.add-wrapper {
+    position: relative;
+}
+
+.add-overlay {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 50;
+
+    background: transparent;
+}
+
+.add-overlay .input-group {
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.10);
+}
+
+.add-inline {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.add-inline-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 2px;
+}
+
+
+.no-mb .mb-3 {
+    margin-bottom: 0 !important;
+}
+
+.qualification-search-panel {
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 16px;
+    background: #fff;
+}
+
+.qualification-table-panel {
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 10px;
+    background: #fff;
+}
+
+.qualification-table-panel .table {
+    margin-bottom: 0;
+}
+
+.qualification-table-panel th {
+    font-weight: 700;
+}
