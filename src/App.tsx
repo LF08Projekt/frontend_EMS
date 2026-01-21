@@ -7,6 +7,7 @@ import {Home} from "./pages/Home.tsx";
 import RequireAuth from "./auth/RequireAuth.tsx";
 import {EmployeeTable} from "./pages/EmployeeTable.tsx";
 import { QualificationListPage } from "./pages/QualificationListPage.tsx";
+import AddEmployeePage from "./pages/AddEmployeePage.tsx";
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
                         <QualificationListPage/>
                     </RequireAuth>
                 }/>
+                <Route path="/addemployee" element={<AddEmployeePage/>}/>
             </Routes>
         </Container>
     )
