@@ -7,6 +7,7 @@ import { PrimaryButton } from "../components/Button";
 
 import "./QualificationListPage.css";
 import {FaPen} from "react-icons/fa";
+import EmployeeSearchBar from "../components/SearchBar";
 
 const MOCK: Qualification[] = [
     { name: "Projektmanagement" },
@@ -104,10 +105,9 @@ export function QualificationListPage() {
             </div>
 
             <div className="qualification-search-panel">
-                <TextInput
+                <EmployeeSearchBar
                     placeholder="Qualifikation suchen..."
-                    value={search}
-                    onChange={setSearch}
+                    onSearch={(q) => setSearch(q)}
                 />
             </div>
 
