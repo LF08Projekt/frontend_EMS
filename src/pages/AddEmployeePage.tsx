@@ -1,67 +1,106 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     Container,
     Row,
     Col,
     Form,
-    Button,
     Badge,
     Dropdown,
     DropdownButton,
 } from 'react-bootstrap';
 import {PrimaryButton} from "../components/Button.tsx";
-
-const mockSkills = ['Java', 'SQL', 'Figma', 'Projektmanagement', 'Kaffee'];
+import {useEmployeeApi} from "../hooks/useEmployeeApi.ts";
+import {useQualificationApi} from "../hooks/useQualificationApi.ts";
+import {useNavigate} from "react-router-dom";
+import type {Qualification} from "../types/employee.ts";
 
 const AddEmployeePage: React.FC = () => {
+    const {createEmployee, loading, error} = useEmployeeApi();
+    const {fetchQualifications} = useQualificationApi();
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
-        vorname: '',
-        nachname: '',
-        strasse: '',
-        hausnummer: '',
-        plz: '',
-        ort: '',
+        firstName: '',
+        lastName: '',
+        street: '',
+        houseNumber: '',
+        postcode: '',
+        city: '',
+        phone: ''
     });
 
-    const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+    const [availableSkills, setAvailableSkills] = useState<Qualification[]>([]);
+    const [selectedSkills, setSelectedSkills] = useState<Qualification[]>([]);
+
+    useEffect(() => {
+        loadSkills();
+    }, []);
+
+    const loadSkills = async () => {
+        const skills = await fetchQualifications();
+        if (skills) {
+            setAvailableSkills(skills);
+        }
+    };
 
     const handleInputChange = (field: string, value: string) => {
         setFormData((prev) => ({...prev, [field]: value}));
     };
 
-    const handleAddSkill = (skill: string) => {
-        if (!selectedSkills.includes(skill)) {
+    const handleAddSkill = (skill: Qualification) => {
+        if (!selectedSkills.find(s => s.id === skill.id)) {
             setSelectedSkills((prev) => [...prev, skill]);
         }
     };
 
-    const handleRemoveSkill = (skill: string) => {
-        setSelectedSkills((prev) => prev.filter((s) => s !== skill));
+    const handleRemoveSkill = (skillId: number) => {
+        setSelectedSkills((prev) => prev.filter((s) => s.id !== skillId));
     };
 
-    const handleSave = () => {
-        console.log('Mitarbeiter speichern:', formData, selectedSkills);
+    const handleSave = async () => {
+        // Validierung
+        if (!formData.firstName || !formData.lastName || !formData.city) {
+            alert("Bitte füllen Sie alle Pflichtfelder aus");
+            return;
+        }
+
+        const employeeData = {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            street: `${formData.street} ${formData.houseNumber}`.trim(),
+            postcode: formData.postcode,
+            city: formData.city,
+            phone: formData.phone,
+            skillSet: selectedSkills.map(skill => skill.id) // Nur IDs senden
+        };
+
+        const result = await createEmployee(employeeData);
+        if (result) {
+            navigate('/employees');
+        }
     };
+
+
 
     return (
         <Container className="py-4">
             <h3 className="mb-4">Mitarbeiter hinzufügen</h3>
 
+            {error && <div className="alert alert-danger">{error}</div>}
+
             <Row className="mb-3">
                 <Col md={6}>
                     <Form.Control
                         placeholder="Vorname"
-                        value={formData.vorname}
-                        onChange={(e) => handleInputChange('vorname', e.target.value)}
-                        style={{backgroundColor: '#f8f9fa'}}
+                        value={formData.firstName}
+                        onChange={(e) => handleInputChange('firstName', e.target.value)}
                     />
                 </Col>
                 <Col md={6}>
                     <Form.Control
                         placeholder="Nachname"
-                        value={formData.nachname}
-                        onChange={(e) => handleInputChange('nachname', e.target.value)}
-                        style={{backgroundColor: '#f8f9fa'}}
+                        value={formData.lastName}
+                        onChange={(e) => handleInputChange('lastName', e.target.value)}
                     />
                 </Col>
             </Row>
@@ -70,84 +109,82 @@ const AddEmployeePage: React.FC = () => {
                 <Col md={9}>
                     <Form.Control
                         placeholder="Straße"
-                        value={formData.strasse}
-                        onChange={(e) => handleInputChange('strasse', e.target.value)}
-                        style={{backgroundColor: '#f8f9fa'}}
+                        value={formData.street}
+                        onChange={(e) => handleInputChange('street', e.target.value)}
                     />
                 </Col>
                 <Col md={3}>
                     <Form.Control
                         placeholder="Hausnummer"
-                        value={formData.hausnummer}
-                        onChange={(e) => handleInputChange('hausnummer', e.target.value)}
-                        style={{backgroundColor: '#f8f9fa'}}
+                        value={formData.houseNumber}
+                        onChange={(e) => handleInputChange('houseNumber', e.target.value)}
                     />
                 </Col>
             </Row>
 
             <Row className="mb-3">
-                <Col md={3}>
+                <Col md={6}>
                     <Form.Control
                         placeholder="Postleitzahl"
-                        value={formData.plz}
-                        onChange={(e) => handleInputChange('plz', e.target.value)}
-                        style={{backgroundColor: '#f8f9fa'}}
+                        value={formData.postcode}
+                        onChange={(e) => handleInputChange('postcode', e.target.value)}
                     />
                 </Col>
-                <Col md={9}>
+                <Col md={6}>
                     <Form.Control
-                        placeholder="Ort"
-                        value={formData.ort}
-                        onChange={(e) => handleInputChange('ort', e.target.value)}
-                        style={{backgroundColor: '#f8f9fa'}}
+                        placeholder="Stadt"
+                        value={formData.city}
+                        onChange={(e) => handleInputChange('city', e.target.value)}
                     />
                 </Col>
             </Row>
 
-
             <Row className="mb-4">
-                <Col md={8}>
-                    <div
-                        className="d-flex flex-wrap gap-2 p-3 border rounded"
-                        style={{
-                            borderColor: '#dee2e6',
-                            backgroundColor: '#f8f9fa',
-                            minHeight: '50px'
-                        }}
-                    >
-                        {selectedSkills.map((skill) => (
-                            <Badge bg="secondary" key={skill}>
-                                {skill}{' '}
-                                <Button
-                                    variant="link"
-                                    size="sm"
-                                    className="text-white text-decoration-none p-0 ms-1"
-                                    onClick={() => handleRemoveSkill(skill)}
-                                >
-                                    &times;
-                                </Button>
-                            </Badge>
-                        ))}
-                    </div>
+                <Col md={12}>
+                    <Form.Control
+                        placeholder="Telefon"
+                        value={formData.phone}
+                        onChange={(e) => handleInputChange('phone', e.target.value)}
+                    />
                 </Col>
-                <Col md={4}>
-                    <DropdownButton title="Hinzufügen" variant="outline-dark">
-                        {mockSkills.map((skill) => (
-                            <Dropdown.Item key={skill}
-                                           onClick={() => handleAddSkill(skill)}>
-                                {skill}
+            </Row>
+
+            <Row className="mb-3">
+                <Col>
+                    <h5>Qualifikationen</h5>
+                    <DropdownButton title="Qualifikation hinzufügen" variant="outline-secondary">
+                        {availableSkills.map((skill) => (
+                            <Dropdown.Item key={skill.id} onClick={() => handleAddSkill(skill)}>
+                                {skill.skill}
                             </Dropdown.Item>
                         ))}
                     </DropdownButton>
                 </Col>
             </Row>
 
+            <Row className="mb-4">
+                <Col>
+                    {selectedSkills.map((skill) => (
+                        <Badge
+                            key={skill.id}
+                            bg="primary"
+                            className="me-2"
+                            style={{cursor: 'pointer'}}
+                            onClick={() => handleRemoveSkill(skill.id)}
+                        >
+                            {skill.skill} ×
+                        </Badge>
+                    ))}
+                </Col>
+            </Row>
 
             <div className="d-flex justify-content-center">
-                <PrimaryButton label={"Mitarbeiter speichern"}
-                               onClick={() => handleSave()}/>
+                <PrimaryButton
+                    label={loading ? "Wird gespeichert..." : "Speichern"}
+                    onClick={handleSave}
+                    disabled={loading}
+                />
             </div>
-
         </Container>
     );
 };
