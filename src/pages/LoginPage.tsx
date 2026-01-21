@@ -1,15 +1,18 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
 import {PrimaryButton} from "../components/Button.tsx";
+import {useAuth} from "react-oidc-context";
 
-type LoginPageProps = {
-    onLogin: () => void;
-};
 
-const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
+const LoginPage: React.FC = () => {
+    const auth = useAuth();
+
+    const handleLogin = () => {
+        auth.signinRedirect();
+    };
+
+
     return (
-        <Container
-            fluid
+        <div
             style={{
                 height: '100vh',
                 display: 'flex',
@@ -18,11 +21,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                 backgroundColor: '#f8f9fa'
             }}
         >
-            <div style={{ textAlign: 'center' }}>
-                <h2 style={{ marginBottom: '1.5rem' }}>Employee Management Service</h2>
-                <PrimaryButton label="Login" onClick={onLogin} />
+            <div style={{textAlign: 'center'}}>
+                <h2 style={{marginBottom: '1.5rem'}}>Employee Management Service</h2>
+                <PrimaryButton label="Login" onClick={handleLogin}/>
             </div>
-        </Container>
+        </div>
     );
 };
 

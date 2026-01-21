@@ -1,70 +1,34 @@
-import {Table} from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import EmployeeListItem from "./ListItem.tsx";
+import type { Employee } from "../types/employee";
 
-const employees = [
-    {
-        name: 'Max Mustermann',
-        location: 'Berlin, Deutschland',
-        qualifications: ['Projektmanagement', 'Softwareentwicklung'],
-    },
-    {
-        name: 'Anna Musterfrau',
-        location: 'München, Deutschland',
-        qualifications: ['Marketing', 'React'],
-    },
-    {
-        name: 'Peter Schmidt',
-        location: 'Hamburg, Deutschland',
-        qualifications: ['Vertrieb', 'Kundenbeziehungen'],
-    },
-    {
-        name: 'Lea Wagner',
-        location: 'Köln, Deutschland',
-        qualifications: ['Personalwesen', 'Java'],
-    },
-    {
-        name: 'Thomas Müller',
-        location: 'Stuttgart, Deutschland',
-        qualifications: ['Finanzen', 'Controlling'],
-    },
-    {
-        name: 'Sophie Becker',
-        location: 'Düsseldorf, Deutschland',
-        qualifications: ['C++', 'React'],
-    },
-    {
-        name: 'Sophie Becker',
-        location: 'Düsseldorf, Deutschland',
-        qualifications: ['Datenanalyse', 'Business Intelligence'],
-    },
-];
+type EmployeeListProps = {
+    employees: Employee[];
+    onEdit?: (employee: Employee) => void;
+    onDelete?: (employee: Employee) => void;
+    onRowClick?: (employee: Employee) => void;
+};
 
-function EmployeeList() {
-    const handleEdit = (employee: any) => {
-        console.log('Edit:', employee);
-    };
-
-    const handleDelete = (employee: any) => {
-        console.log('Delete:', employee);
-    };
-
+function EmployeeList({ employees, onEdit, onDelete, onRowClick }: EmployeeListProps) {
     return (
         <Table striped bordered hover responsive>
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Ort</th>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th>Stadt</th>
                 <th>Qualifikationen</th>
                 <th>Aktionen</th>
             </tr>
             </thead>
             <tbody>
-            {employees.map((emp, idx) => (
+            {employees.map((employee, index) => (
                 <EmployeeListItem
-                    key={`${emp.name}-${idx}`}
-                    employee={emp}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
+                    key={employee.id || index}
+                    employee={employee}
+                    onEdit={onEdit}
+                    onDelete={onDelete}
+                    onRowClick={onRowClick}
                 />
             ))}
             </tbody>

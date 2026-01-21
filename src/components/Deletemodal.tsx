@@ -1,6 +1,6 @@
 
 import React from 'react';
-import type { Employee } from '../types/employees';
+import type { Employee } from '../types/employee';
 
 interface DeleteModalProps {
   isOpen: boolean;
