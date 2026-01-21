@@ -10,6 +10,7 @@ import EmployeeSearchBar from "../components/SearchBar";
 import { useQualificationApi } from "../hooks/useQualificationApi";
 
 
+
 export function QualificationListPage() {
 
     const {
@@ -76,7 +77,9 @@ export function QualificationListPage() {
     return (
         <Container className="qualification-page">
             <div className="qualification-header">
-                <h1 className="qualification-title">Qualifikationsliste</h1>
+                <div className="qualification-breadcrumbs">
+                    <span className="crumb active">Qualifikationsliste</span>
+                </div>
 
                 <div className="qualification-header-actions">
                     <div className="add-wrapper">
