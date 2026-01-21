@@ -21,11 +21,6 @@
     font-size: 18px;
 }
 
-.crumb.muted {
-    opacity: 0.55;
-    font-weight: 600;
-}
-
 .crumb.active {
     font-weight: 800;
 }
