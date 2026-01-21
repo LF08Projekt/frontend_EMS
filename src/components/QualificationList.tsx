@@ -2,6 +2,7 @@ import { Table } from "react-bootstrap";
 import QualificationListItem from "./QualificationListItem.tsx";
 
 export type Qualification = {
+    id: number;
     name: string;
 };
 
@@ -24,7 +25,7 @@ function QualificationList({ qualifications, onEdit, onDelete }: QualificationLi
             <tbody>
             {qualifications.map((qual) => (
                 <QualificationListItem
-                    key={qual.name}
+                    key={qual.id}
                     qualification={qual}
                     onEdit={onEdit}
                     onDelete={onDelete}
