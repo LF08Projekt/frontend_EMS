@@ -61,11 +61,8 @@ export function QualificationListPage() {
         setQualifications((prev) => prev.filter((x) => x.name !== q.name));
     }
 
-    function handleEdit(q: Qualification) {
-        const result = window.prompt("Neue Qualifikation:", q.name);
-        if (result === null) return;
-
-        const name = result.trim();
+    function handleEdit(q: Qualification, newName: string) {
+        const name = newName.trim();
         if (!name) return;
 
         setQualifications((prev) =>

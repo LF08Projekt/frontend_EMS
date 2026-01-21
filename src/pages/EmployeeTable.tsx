@@ -1,6 +1,6 @@
 import {Container} from "react-bootstrap";
 import {useEmployeeApi} from "../hooks/useEmployeeApi.ts";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import EmployeeSearchBar from "../components/SearchBar.tsx";
 import {mockEmployees} from "../data/mockEployees.ts";
 import type {Employee} from "../types/employee";
@@ -13,12 +13,27 @@ import "./EmployeeTable.css";
 
 
 export function EmployeeTable() {
-    const {error} = useEmployeeApi();
+    const {fetchEmployees, error} = useEmployeeApi();
     const [employees, setEmployees] = useState<Employee[]>(mockEmployees);
     const [employeeToDelete, setEmployeeToDelete] = useState<Employee | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
+
+    // Automatically load employees when component mounts
+    useEffect(() => {
+        fetchEmployees().then(data => {
+            if (data) {
+                setEmployees(data);
+            } else {
+                console.warn("API failed, using mock data");
+                setEmployees(mockEmployees);
+            }
+        }).catch(err => {
+            console.error("Error loading employees:", err);
+            setEmployees(mockEmployees);
+        });
+    }, []);
 
     const handleSearch = (query: string) => {
         const filtered = mockEmployees.filter(emp =>
@@ -30,8 +45,7 @@ export function EmployeeTable() {
     }
 
     const handleEdit = (employee: Employee) => {
-        console.log("Edit employee:", employee);
-        alert(`Edit employee: ${employee.firstName} ${employee.lastName}`);
+        navigate(`/editemployee/${employee.id}`);
     }
 
     const handleDelete = (employee: Employee) => {
