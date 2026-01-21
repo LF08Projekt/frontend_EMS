@@ -5,7 +5,8 @@ import {UnsecuredFoo} from "./pages/UnsecuredFoo.tsx";
 import {SecuredBar} from "./pages/SecuredBar.tsx";
 import {Home} from "./pages/Home.tsx";
 import RequireAuth from "./auth/RequireAuth.tsx";
-import EmployeeTable from "./pages/EmployeeTable.tsx";
+import {EmployeeTable} from "./pages/EmployeeTable.tsx";
+import { QualificationListPage } from "./pages/QualificationListPage.tsx";
 import AddEmployeePage from "./pages/AddEmployeePage.tsx";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
                             <Nav.Link as={Link} to="/foo">Foo</Nav.Link>
                             <Nav.Link as={Link} to="/bar">Bar</Nav.Link>
                             <Nav.Link as={Link} to="/employees">Mitarbeiter</Nav.Link>
+                            <Nav.Link as={Link} to="/qualifications">Qualifikationen</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -37,6 +39,11 @@ function App() {
                 <Route path="/employees" element={
                     <RequireAuth>
                         <EmployeeTable/>
+                    </RequireAuth>
+                }/>
+                <Route path="/qualifications" element={
+                    <RequireAuth>
+                        <QualificationListPage/>
                     </RequireAuth>
                 }/>
                 <Route path="/addemployee" element={<AddEmployeePage/>}/>
