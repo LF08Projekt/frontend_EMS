@@ -4,6 +4,8 @@ import type {JSX} from "react";
 export default function RequireAuth({children}: { children: JSX.Element }) {
     const auth = useAuth();
 
+
+
     if (auth.isLoading) return <p>Lädt…</p>;
     if (auth.error) return <p>Fehler: {auth.error.message}</p>;
 

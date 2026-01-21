@@ -1,41 +1,36 @@
 import './App.css'
 import {Container, Nav, Navbar} from "react-bootstrap";
-import {Link, Route, Routes} from "react-router-dom";
-import {UnsecuredFoo} from "./pages/UnsecuredFoo.tsx";
-import {SecuredBar} from "./pages/SecuredBar.tsx";
-import {Home} from "./pages/Home.tsx";
+import {Link, Navigate, Route, Routes} from "react-router-dom";
 import RequireAuth from "./auth/RequireAuth.tsx";
 import {EmployeeTable} from "./pages/EmployeeTable.tsx";
-import { QualificationListPage } from "./pages/QualificationListPage.tsx";
+import {QualificationListPage} from "./pages/QualificationListPage.tsx";
 import AddEmployeePage from "./pages/AddEmployeePage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
+import {useAuth} from "react-oidc-context";
+import CallbackPage from "./pages/CallbackPage.tsx";
+
 
 function App() {
-
+    const auth = useAuth();
 
     return (
         <Container>
-            <Navbar bg="light" expand="lg">
-                <Container>
-                    <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link as={Link} to="/foo">Foo</Nav.Link>
-                            <Nav.Link as={Link} to="/bar">Bar</Nav.Link>
-                            <Nav.Link as={Link} to="/employees">Mitarbeiter</Nav.Link>
-                            <Nav.Link as={Link} to="/qualifications">Qualifikationen</Nav.Link>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
+            {auth.isAuthenticated && (
+                <Navbar bg="light" expand="lg">
+                    <Container>
+                        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                        <Navbar.Collapse id="basic-navbar-nav">
+                            <Nav className="me-auto">
+                                <Nav.Link as={Link} to="/employees">Mitarbeiter</Nav.Link>
+                                <Nav.Link as={Link} to="/qualifications">Qualifikationen</Nav.Link>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Container>
+                </Navbar>
+            )}
             <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/foo" element={<UnsecuredFoo/>}/>
-                <Route path="/bar" element={
-                    <RequireAuth>
-                        <SecuredBar/>
-                    </RequireAuth>
-                }/>
+                <Route path="/" element={!auth.isAuthenticated ? <LoginPage/> : <Navigate to="/employees"/>}/>
+                <Route path="/callback" element={<CallbackPage/>}/>
                 <Route path="/employees" element={
                     <RequireAuth>
                         <EmployeeTable/>
@@ -46,8 +41,15 @@ function App() {
                         <QualificationListPage/>
                     </RequireAuth>
                 }/>
-                <Route path="/addemployee" element={<AddEmployeePage/>}/>
+                <Route path="/addemployee" element={
+                    <RequireAuth>
+                        <AddEmployeePage/>
+                    </RequireAuth>
+                }/>
+                {/* Fallback */}
+                <Route path="*" element={<Navigate to="/"/>}/>
             </Routes>
+
         </Container>
     )
 }
