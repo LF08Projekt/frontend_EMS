@@ -77,7 +77,6 @@ export function QualificationListPage() {
         <Container className="qualification-page">
             <div className="qualification-header">
                 <div className="qualification-breadcrumbs">
-                    <span className="crumb muted">Mitarbeiterliste</span>
                     <span className="crumb active">Qualifikationsliste</span>
                 </div>
 

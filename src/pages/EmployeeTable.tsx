@@ -1,34 +1,26 @@
-import {Button, Container, Row, Table} from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import {useEmployeeApi} from "../hooks/useEmployeeApi.ts";
 import {useState} from "react";
 import EmployeeSearchBar from "../components/SearchBar.tsx";
 import {mockEmployees} from "../data/mockEployees.ts";
 import type {Employee} from "../types/employee";
-import {ActionButtons, PrimaryButton} from "../components/Button.tsx";
+import {PrimaryButton} from "../components/Button.tsx";
 import {DeleteModal} from "../components/Deletemodal.tsx";
-import Tag from "../components/Tag.tsx";
 import DetailCard from "../components/DetailCard.tsx";
 import {useNavigate} from "react-router-dom";
-
-
+import EmployeeList from "../components/EmployeeList.tsx";
+import "./EmployeeTable.css";
 
 
 export function EmployeeTable() {
-
-    const {fetchEmployees, error} = useEmployeeApi();
+    const {error} = useEmployeeApi();
     const [employees, setEmployees] = useState<Employee[]>(mockEmployees);
     const [employeeToDelete, setEmployeeToDelete] = useState<Employee | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
 
-    const handleLoadEmployees = () => {
-        fetchEmployees().then(data => setEmployees(data)).catch(err => console.error(err));
-    }
-
     const handleSearch = (query: string) => {
-        console.log("Search query:", query);
-        // Filter mock data based on search query
         const filtered = mockEmployees.filter(emp =>
             emp.firstName.toLowerCase().includes(query.toLowerCase()) ||
             emp.lastName.toLowerCase().includes(query.toLowerCase()) ||
@@ -77,72 +69,39 @@ export function EmployeeTable() {
     };
 
     if (error) {
-        return <div> {error}</div>;
+        return <div>{error}</div>;
     }
 
-
     return (
-        <Container>
-            <EmployeeSearchBar onSearch={handleSearch}/>
-            <Row className="mb-2">
-                <Button onClick={handleLoadEmployees}>
-                    Mitarbeiter laden
-                </Button>
-                <PrimaryButton label={"Mitarbeiter hinzufügen"} onClick={handleAddEmployee}/>
-            </Row>
+        <Container className="employee-page">
+            <div className="employee-header">
+                <div className="employee-breadcrumbs">
+                    <span className="crumb active">Mitarbeiterliste</span>
+                </div>
 
-            <Table>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
-                    <th>Abteilung</th>
-                    <th>Stadt</th>
-                    <th>Qualifikationen</th>
-                    <th>Aktionen</th>
-                </tr>
-                </thead>
-                <tbody>
-                {employees.map((employee, index) => (
-                    <tr key={index} onClick={() => handleRowClick(employee)} style={{cursor: 'pointer'}}
-                        className="employee-row">
-                        <td>
-                            <div className="table-avatar">
-                                {employee.photo ? (
-                                    <img src={employee.photo} alt={`${employee.firstName} ${employee.lastName}`}
-                                         className="table-avatar-img"/>
-                                ) : (
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8b92a9"
-                                         strokeWidth="1.5">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                    </svg>
-                                )}
-                            </div>
-                        </td>
-                        <td>{employee.firstName}</td>
-                        <td>{employee.lastName}</td>
-                        <td>{employee.city}</td>
-                        <td>{employee.department}</td>
-                        <td>
-                            <div className="qualification-tags">
-                                {employee.skillSet.map((qual, idx) => (
-                                    <Tag key={idx} label={qual.skill}/>
-                                ))}
-                            </div>
-                        </td>
-                        <td onClick={(e) => e.stopPropagation()}>
-                            <ActionButtons
-                                employee={employee}
-                                onEdit={handleEdit}
-                                onDelete={handleDelete}
-                            />
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </Table>
+                <div className="employee-header-actions">
+                    <PrimaryButton
+                        label="+ Mitarbeiter hinzufügen"
+                        onClick={handleAddEmployee}
+                    />
+                </div>
+            </div>
+
+            <div className="employee-search-panel">
+                <EmployeeSearchBar
+                    placeholder="Mitarbeiter suchen..."
+                    onSearch={handleSearch}
+                />
+            </div>
+
+            <div className="employee-table-panel">
+                <EmployeeList
+                    employees={employees}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                    onRowClick={handleRowClick}
+                />
+            </div>
 
             <DeleteModal
                 isOpen={isModalOpen}
@@ -157,8 +116,7 @@ export function EmployeeTable() {
                 onClose={handleCloseDetail}
             />
         </Container>
-    )
+    );
 }
 
-export default EmployeeTable
-;
+export default EmployeeTable;
