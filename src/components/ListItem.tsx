@@ -1,42 +1,37 @@
 import React from 'react';
-import {Button, Badge} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import {FaTrash, FaPen} from 'react-icons/fa';
-
-type Employee = {
-    name: string;
-    location: string;
-    qualifications: string[];
-};
+import type {Employee} from "../types/employee";
+import Tag from "./Tag.tsx";
 
 type EmployeeListItemProps = {
     employee: Employee;
     onEdit?: (employee: Employee) => void;
     onDelete?: (employee: Employee) => void;
+    onRowClick?: (employee: Employee) => void;
 };
 
-const EmployeeListItem: React.FC<EmployeeListItemProps> = ({
-                                                               employee,
-                                                               onEdit,
-                                                               onDelete
-                                                           }) => {
+const EmployeeListItem: React.FC<EmployeeListItemProps> = ({employee, onEdit, onDelete, onRowClick}) => {
     return (
-        <tr>
-            <td>{employee.name}</td>
-            <td>{employee.location}</td>
+        <tr
+            onClick={() => onRowClick?.(employee)}
+            style={{cursor: 'pointer'}}
+        >
+            <td>{employee.firstName}</td>
+            <td>{employee.lastName}</td>
+            <td>{employee.city}</td>
             <td>
-                {employee.qualifications.map((q, idx) => (
-                    <Badge key={idx} bg="secondary" className="me-1">
-                        {q}
-                    </Badge>
-                ))}
+                <div className="qualification-tags">
+                    {employee.skillSet.map((qual, idx) => (
+                        <Tag key={idx} label={qual.skill}/>
+                    ))}
+                </div>
             </td>
-            <td>
-                <Button variant="outline-dark" size="sm" className="me-2"
-                        onClick={() => onEdit?.(employee)}>
+            <td onClick={(e) => e.stopPropagation()}>
+                <Button variant="outline-dark" size="sm" className="me-2" onClick={() => onEdit?.(employee)}>
                     <FaPen/>
                 </Button>
-                <Button variant="outline-danger" size="sm"
-                        onClick={() => onDelete?.(employee)}>
+                <Button variant="outline-danger" size="sm" onClick={() => onDelete?.(employee)}>
                     <FaTrash/>
                 </Button>
             </td>

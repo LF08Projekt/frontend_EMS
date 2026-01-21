@@ -22,14 +22,10 @@ export const DetailCard: React.FC<DetailCardProps> = ({ employee, isOpen, onClos
                     {/* Avatar Section */}
                     <div className="avatar-section">
                         <div className="avatar-circle">
-                            {employee.photo ? (
-                                <img src={employee.photo} alt={`${employee.firstName} ${employee.lastName}`} className="employee-photo" />
-                            ) : (
-                                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="12" cy="7" r="4"></circle>
-                                </svg>
-                            )}
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
                         </div>
                         <button className="edit-btn">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
@@ -57,23 +53,14 @@ export const DetailCard: React.FC<DetailCardProps> = ({ employee, isOpen, onClos
 
                         <div className="info-row">
                             <div className="info-column">
-                                <label>Straße</label>
-                                <p>{employee.street} {employee.HauseNumber}</p>
+                                <label>Abteilung</label>
+                                <p>{employee.department}</p>
                             </div>
                         </div>
 
                         <div className="info-row">
-                            
                             <div className="info-column">
-                                <label>Postleitzahl</label>
-                                <p>{employee.postcode}</p>
-                            </div>
-                            <div className="info-column">
-                                <label>HauseNumber</label>
-                                <p>{employee.HauseNumber}</p>
-                            </div>
-                            <div className="info-column">
-                                <label>Ort</label>
+                                <label>Stadt</label>
                                 <p>{employee.city}</p>
                             </div>
                         </div>
