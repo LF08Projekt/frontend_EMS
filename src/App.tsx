@@ -5,6 +5,7 @@ import RequireAuth from "./auth/RequireAuth.tsx";
 import {EmployeeTable} from "./pages/EmployeeTable.tsx";
 import {QualificationListPage} from "./pages/QualificationListPage.tsx";
 import AddEmployeePage from "./pages/AddEmployeePage.tsx";
+import EditEmployeePage from "./pages/EditEmployeePage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import {useAuth} from "react-oidc-context";
 import CallbackPage from "./pages/CallbackPage.tsx";
@@ -44,6 +45,11 @@ function App() {
                 <Route path="/addemployee" element={
                     <RequireAuth>
                         <AddEmployeePage/>
+                    </RequireAuth>
+                }/>
+                <Route path="/editemployee/:id" element={
+                    <RequireAuth>
+                        <EditEmployeePage/>
                     </RequireAuth>
                 }/>
                 {/* Fallback */}

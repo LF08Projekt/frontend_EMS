@@ -57,8 +57,13 @@ export function QualificationListPage() {
         setIsAdding(false);
     }
 
+    function handleEdit(q: Qualification, newName: string) {
+        const name = newName.trim();
+        if (!name) return;
 
-    function handleEdit() {
+        setQualifications((prev) =>
+            prev.map((x) => (x.id === q.id ? { ...x, name } : x))
+        );
     }
 
     const handleDelete = (qualification: Qualification) => {
