@@ -53,15 +53,27 @@ export const DetailCard: React.FC<DetailCardProps> = ({ employee, isOpen, onClos
 
                         <div className="info-row">
                             <div className="info-column">
-                                <label>Abteilung</label>
-                                <p>{employee.department}</p>
+                                <label>Straße</label>
+                                <p>{employee.street} {employee.HauseNumber}</p>
                             </div>
                         </div>
 
                         <div className="info-row">
                             <div className="info-column">
-                                <label>Stadt</label>
+                                <label>Postleitzahl</label>
+                                <p>{employee.postcode}</p>
+                            </div>
+
+                            <div className="info-column">
+                                <label>Ort</label>
                                 <p>{employee.city}</p>
+                            </div>
+                        </div>
+
+                        <div className="info-row">
+                            <div className="info-column">
+                                <label>Abteilung</label>
+                                <p>{employee.department}</p>
                             </div>
                         </div>
 

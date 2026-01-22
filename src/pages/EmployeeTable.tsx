@@ -41,8 +41,7 @@ export function EmployeeTable() {
     };
 
     const handleEdit = (employee: Employee) => {
-        console.log("Edit employee:", employee);
-        alert(`Edit employee: ${employee.firstName} ${employee.lastName}`);
+        navigate(`/editemployee/${employee.id}`);
     };
 
     const handleDelete = (employee: Employee) => {

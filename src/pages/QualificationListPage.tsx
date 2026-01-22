@@ -72,7 +72,14 @@ export function QualificationListPage() {
         setQualifications((prev) => prev.filter((x) => x.id !== q.id));
     }
 
-    function handleEdit() {}
+    function handleEdit(q: Qualification, newName: string) {
+        const name = newName.trim();
+        if (!name) return;
+
+        setQualifications((prev) =>
+            prev.map((x) => (x.id === q.id ? { ...x, name } : x))
+        );
+    }
 
     return (
         <Container className="qualification-page">
