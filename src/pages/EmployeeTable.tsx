@@ -4,11 +4,11 @@ import {useEffect, useState} from "react";
 import EmployeeSearchBar from "../components/SearchBar.tsx";
 import type {Employee} from "../types/employee";
 import {PrimaryButton} from "../components/Button.tsx";
-import {DeleteModal} from "../components/Deletemodal.tsx";
 import DetailCard from "../components/DetailCard.tsx";
 import {useNavigate} from "react-router-dom";
 import EmployeeList from "../components/EmployeeList.tsx";
 import "./EmployeeTable.css";
+import GenericModal from "../components/Deletemodal.tsx";
 
 export function EmployeeTable() {
     const {fetchEmployees, deleteEmployee, loading, error} = useEmployeeApi();
@@ -121,11 +121,18 @@ export function EmployeeTable() {
                 />
             </div>
 
-            <DeleteModal
+            <GenericModal
                 isOpen={isModalOpen}
-                employee={employeeToDelete}
-                onConfirm={handleDeleteConfirm}
+                title="Mitarbeiter/in löschen"
+                body={
+                    <>
+                        Wollen Sie den/die
+                        Mitarbeiter/in <strong>{employeeToDelete?.firstName} {employeeToDelete?.lastName}</strong> wirklich
+                        löschen?
+                    </>
+                }
                 onCancel={handleDeleteCancel}
+                onConfirm={handleDeleteConfirm}
             />
 
             <DetailCard
