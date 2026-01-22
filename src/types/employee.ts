@@ -10,11 +10,9 @@ export interface Employee {
     firstName: string;
     lastName: string;
     street: string;
-    HauseNumber: number;
     postcode: string;
     city: string;
     phone: string;
-    department: string;
     skillSet: Qualification[];
 
 }
@@ -27,8 +25,7 @@ export interface CreateEmployeeDto {
     postcode: string;
     city: string;
     phone: string;
-    department: string;
-    skillSet: Qualification[]; // kann leer sein, [] erlaubt
+    skillSet: number[]; // kann leer sein, [] erlaubt
 }
 
 //Alles nochmal testen
