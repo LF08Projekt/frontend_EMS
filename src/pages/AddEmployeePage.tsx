@@ -125,7 +125,7 @@ const AddEmployeePage: React.FC = () => {
             <Row className="mb-3">
                 <Col md={6}>
                     <Form.Control
-                        placeholder="Postleitzahl"
+                        placeholder="PLZ"
                         value={formData.postcode}
                         onChange={(e) => handleInputChange('postcode', e.target.value)}
                     />
