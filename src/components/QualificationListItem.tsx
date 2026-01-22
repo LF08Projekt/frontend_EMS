@@ -3,6 +3,7 @@ import {Button, Form} from 'react-bootstrap';
 import { FaTrash, FaPen, FaCheck, FaTimes } from 'react-icons/fa';
 
 type Qualification = {
+    id: number;
     name: string;
 };
 
@@ -82,7 +83,6 @@ const QualificationListItem: React.FC<QualificationListItemProps> = ({ qualifica
         </tr>
     );
 };
-
 
 
 export default QualificationListItem;

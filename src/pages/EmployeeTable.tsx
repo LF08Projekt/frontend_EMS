@@ -1,86 +1,89 @@
 import {Container} from "react-bootstrap";
 import {useEmployeeApi} from "../hooks/useEmployeeApi.ts";
-import {useState, useEffect} from "react";
+import {useEffect, useState} from "react";
 import EmployeeSearchBar from "../components/SearchBar.tsx";
-import {mockEmployees} from "../data/mockEployees.ts";
 import type {Employee} from "../types/employee";
 import {PrimaryButton} from "../components/Button.tsx";
-import {DeleteModal} from "../components/Deletemodal.tsx";
 import DetailCard from "../components/DetailCard.tsx";
 import {useNavigate} from "react-router-dom";
 import EmployeeList from "../components/EmployeeList.tsx";
 import "./EmployeeTable.css";
-
+import GenericModal from "../components/Deletemodal.tsx";
 
 export function EmployeeTable() {
-    const {fetchEmployees, error} = useEmployeeApi();
-    const [employees, setEmployees] = useState<Employee[]>(mockEmployees);
+    const {fetchEmployees, deleteEmployee, loading, error} = useEmployeeApi();
+    const [employees, setEmployees] = useState<Employee[]>([]);
+    const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
     const [employeeToDelete, setEmployeeToDelete] = useState<Employee | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
 
-    // Automatically load employees when component mounts
     useEffect(() => {
-        fetchEmployees().then(data => {
-            if (data) {
-                setEmployees(data);
-            } else {
-                console.warn("API failed, using mock data");
-                setEmployees(mockEmployees);
-            }
-        }).catch(err => {
-            console.error("Error loading employees:", err);
-            setEmployees(mockEmployees);
-        });
+        loadEmployees();
     }, []);
 
+    const loadEmployees = async () => {
+        const data = await fetchEmployees();
+        if (data) {
+            setEmployees(data);
+            setFilteredEmployees(data);
+        }
+    };
+
     const handleSearch = (query: string) => {
-        const filtered = mockEmployees.filter(emp =>
+        const filtered = employees.filter(emp =>
             emp.firstName.toLowerCase().includes(query.toLowerCase()) ||
             emp.lastName.toLowerCase().includes(query.toLowerCase()) ||
             emp.city.toLowerCase().includes(query.toLowerCase())
         );
-        setEmployees(filtered);
-    }
+        setFilteredEmployees(filtered);
+    };
 
     const handleEdit = (employee: Employee) => {
         navigate(`/editemployee/${employee.id}`);
-    }
+    };
 
     const handleDelete = (employee: Employee) => {
         setEmployeeToDelete(employee);
         setIsModalOpen(true);
-    }
+    };
 
-    const handleDeleteConfirm = () => {
-        if (employeeToDelete) {
-            setEmployees(employees.filter(emp => emp !== employeeToDelete));
-            setIsModalOpen(false);
-            setEmployeeToDelete(null);
+    const handleDeleteConfirm = async () => {
+        if (employeeToDelete?.id) {
+            const success = await deleteEmployee(employeeToDelete.id);
+            if (success) {
+                await loadEmployees();
+                setIsModalOpen(false);
+                setEmployeeToDelete(null);
+            }
         }
-    }
+    };
 
     const handleDeleteCancel = () => {
         setIsModalOpen(false);
         setEmployeeToDelete(null);
-    }
+    };
 
     const handleRowClick = (employee: Employee) => {
         setSelectedEmployee(employee);
         setIsDetailOpen(true);
-    }
+    };
 
     const handleCloseDetail = () => {
         setIsDetailOpen(false);
         setSelectedEmployee(null);
-    }
+    };
 
     const navigate = useNavigate();
 
     const handleAddEmployee = () => {
         navigate('/addemployee');
     };
+
+    if (loading) {
+        return <div>Laden...</div>;
+    }
 
     if (error) {
         return <div>{error}</div>;
@@ -110,18 +113,25 @@ export function EmployeeTable() {
 
             <div className="employee-table-panel">
                 <EmployeeList
-                    employees={employees}
+                    employees={filteredEmployees}
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                     onRowClick={handleRowClick}
                 />
             </div>
 
-            <DeleteModal
+            <GenericModal
                 isOpen={isModalOpen}
-                employee={employeeToDelete}
-                onConfirm={handleDeleteConfirm}
+                title="Mitarbeiter/in löschen"
+                body={
+                    <>
+                        Wollen Sie den/die
+                        Mitarbeiter/in <strong>{employeeToDelete?.firstName} {employeeToDelete?.lastName}</strong> wirklich
+                        löschen?
+                    </>
+                }
                 onCancel={handleDeleteCancel}
+                onConfirm={handleDeleteConfirm}
             />
 
             <DetailCard

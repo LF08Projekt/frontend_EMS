@@ -1,36 +1,45 @@
+import "./QualificationListPage.css";
 import { Container } from "react-bootstrap";
-import { useMemo, useState } from "react";
+import {useEffect, useMemo, useState} from "react";
 import QualificationList from "../components/QualificationList";
 import type { Qualification } from "../components/QualificationList";
 import TextInput from "../components/Textfield";
 import { PrimaryButton } from "../components/Button";
-
-import "./QualificationListPage.css";
-import {FaPen} from "react-icons/fa";
+import {AiFillPlusCircle} from "react-icons/ai";
 import EmployeeSearchBar from "../components/SearchBar";
+import { useQualificationApi } from "../hooks/useQualificationApi";
 
-const MOCK: Qualification[] = [
-    { name: "Projektmanagement" },
-    { name: "Vertrieb" },
-    { name: "Java" },
-    { name: "React" },
-    { name: "Marketing" },
-    { name: "C++" },
-    { name: "Datenanalyse" },
-    { name: "Softwareentwicklung" },
-    { name: "Scrum / Agile Methoden" },
-    { name: "Docker" },
-    { name: "SQL" },
-    { name: "UI/UX Design" },
-];
+
 
 export function QualificationListPage() {
-    const [qualifications, setQualifications] = useState<Qualification[]>(MOCK);
+
+    const {
+        fetchQualifications,
+        createQualification,
+        deleteQualification,
+    } = useQualificationApi();
+
+
+    const [qualifications, setQualifications] = useState<Qualification[]>([]);
 
     const [search, setSearch] = useState("");
-
     const [isAdding, setIsAdding] = useState(false);
     const [newName, setNewName] = useState("");
+
+
+    useEffect(() => {
+        (async () => {
+            const data = await fetchQualifications();
+            if (!data) return;
+
+            const mapped: Qualification[] = data.map((q) => ({
+                id: q.id,
+                name: q.skill,
+            }));
+            setQualifications(mapped);
+
+        })();
+    }, []);
 
     const filteredQualifications = useMemo(() => {
         const q = search.trim().toLowerCase();
@@ -43,22 +52,24 @@ export function QualificationListPage() {
         setNewName("");
     }
 
-    function handleAdd() {
+    async function handleAdd() {
         const name = newName.trim();
         if (!name) return;
 
-        const exists = qualifications.some(
-            (q) => q.name.toLowerCase() === name.toLowerCase()
-        );
-        if (exists) return;
+        const created = await createQualification({ skill: name });
+        if (!created) return;
 
-        setQualifications((prev) => [{ name }, ...prev]);
+        setQualifications((prev) => [{ id: created.id, name: created.skill }, ...prev]);
+
         setNewName("");
         setIsAdding(false);
     }
 
-    function handleDelete(q: Qualification) {
-        setQualifications((prev) => prev.filter((x) => x.name !== q.name));
+    async function handleDelete(q: Qualification) {
+        const ok = await deleteQualification(q.id);
+        if (!ok) return;
+
+        setQualifications((prev) => prev.filter((x) => x.id !== q.id));
     }
 
     function handleEdit(q: Qualification, newName: string) {
@@ -66,7 +77,7 @@ export function QualificationListPage() {
         if (!name) return;
 
         setQualifications((prev) =>
-            prev.map((x) => (x.name === q.name ? { name } : x))
+            prev.map((x) => (x.id === q.id ? { ...x, name } : x))
         );
     }
 
@@ -90,7 +101,7 @@ export function QualificationListPage() {
                                     placeholder="Neue Qualifikation eingeben"
                                     value={newName}
                                     onChange={setNewName}
-                                    rightIcon={<FaPen />}
+                                    rightIcon={<AiFillPlusCircle />}
                                     onRightIconClick={handleAdd}
                                     onEnter={handleAdd}
                                 />
