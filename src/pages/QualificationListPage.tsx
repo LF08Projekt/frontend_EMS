@@ -5,7 +5,7 @@ import QualificationList from "../components/QualificationList";
 import type { Qualification } from "../components/QualificationList";
 import TextInput from "../components/Textfield";
 import { PrimaryButton } from "../components/Button";
-import { AiOutlineCheck } from "react-icons/ai";
+import {AiFillPlusCircle} from "react-icons/ai";
 import EmployeeSearchBar from "../components/SearchBar";
 import { useQualificationApi } from "../hooks/useQualificationApi";
 
@@ -94,7 +94,7 @@ export function QualificationListPage() {
                                     placeholder="Neue Qualifikation eingeben"
                                     value={newName}
                                     onChange={setNewName}
-                                    rightIcon={<AiOutlineCheck />}
+                                    rightIcon={<AiFillPlusCircle />}
                                     onRightIconClick={handleAdd}
                                     onEnter={handleAdd}
                                 />
