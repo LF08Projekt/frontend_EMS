@@ -10,7 +10,6 @@ import "./EmployeeTable.css";
 import GenericModal from "../components/Deletemodal.tsx";
 import {useDebounce} from "../hooks/useDebounce.ts";
 import SearchBar from "../components/SearchBar.tsx";
-import {useCallback} from "react";
 
 
 export function EmployeeTable() {
@@ -25,21 +24,20 @@ export function EmployeeTable() {
     const debouncedSearch = useDebounce(searchTerm, 500);
 
 
-    const loadEmployees = useCallback(async () => {
-        const data = await fetchEmployees();
-        if (data) {
-            setEmployees(data);
-            setFilteredEmployees(data);
-        }
-    }, [fetchEmployees]);
-
-
     useEffect(() => {
+        const loadEmployees = async () => {
+            const data = await fetchEmployees();
+            if (data) {
+                setEmployees(data);
+                setFilteredEmployees(data);
+            }
+        };
+
         loadEmployees();
-    }, [loadEmployees]);
+    }, []);
 
 
-    const handleSearch = useCallback((query: string) => {
+    const handleSearch = (query: string) => {
         const lower = query.toLowerCase();
 
         const filtered = employees.filter(emp =>
@@ -50,11 +48,11 @@ export function EmployeeTable() {
         );
 
         setFilteredEmployees(filtered);
-    }, [employees]);
+    };
 
     useEffect(() => {
         handleSearch(debouncedSearch);
-    }, [debouncedSearch, handleSearch]);
+    }, [debouncedSearch]);
 
     const handleEdit = (employee: Employee) => {
         navigate(`/editemployee/${employee.id}`);
@@ -70,7 +68,9 @@ export function EmployeeTable() {
         if (employeeToDelete?.id) {
             const success = await deleteEmployee(employeeToDelete.id);
             if (success) {
-                await loadEmployees();
+                const data = await fetchEmployees();
+                setEmployees(data || []);
+                setFilteredEmployees(data || []);
                 setIsModalOpen(false);
                 setEmployeeToDelete(null);
             }
