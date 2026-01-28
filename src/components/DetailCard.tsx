@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import type { Employee } from '../types/employee';
 import Tag from './Tag';
 import './DetailCard.css';
@@ -11,7 +12,14 @@ interface DetailCardProps {
 }
 
 export const DetailCard: React.FC<DetailCardProps> = ({ employee, isOpen, onClose }) => {
+    const navigate = useNavigate();
+
     if (!employee) return null;
+
+    const handleEdit = () => {
+        onClose();
+        navigate(`/editemployee/${employee.id}`);
+    };
 
     return (
         <Modal show={isOpen} onHide={onClose} centered className="detail-card-modal">
@@ -27,7 +35,7 @@ export const DetailCard: React.FC<DetailCardProps> = ({ employee, isOpen, onClos
                                 <circle cx="12" cy="7" r="4"></circle>
                             </svg>
                         </div>
-                        <button className="edit-btn">
+                        <button className="edit-btn" onClick={handleEdit}>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -53,8 +61,8 @@ export const DetailCard: React.FC<DetailCardProps> = ({ employee, isOpen, onClos
 
                         <div className="info-row">
                             <div className="info-column">
-                                <label>Straße</label>
-                                <p>{employee.street} {employee.HauseNumber}</p>
+                                <label>Adresse</label>
+                                <p>{employee.street}</p>
                             </div>
                         </div>
 
@@ -72,8 +80,8 @@ export const DetailCard: React.FC<DetailCardProps> = ({ employee, isOpen, onClos
 
                         <div className="info-row">
                             <div className="info-column">
-                                <label>Abteilung</label>
-                                <p>{employee.department}</p>
+                                <label>Telefon</label>
+                                <p>{employee.phone}</p>
                             </div>
                         </div>
 

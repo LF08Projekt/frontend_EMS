@@ -12,61 +12,90 @@ import {
 import {PrimaryButton} from "../components/Button.tsx";
 import {useParams, useNavigate} from 'react-router-dom';
 import {useEmployeeApi} from '../hooks/useEmployeeApi.ts';
-import type {Employee} from '../types/employee.ts';
+import {useQualificationApi} from '../hooks/useQualificationApi.ts';
+import type {Qualification} from '../types/employee.ts';
+import {AddQualificationInline} from "../components/AddQualificationInline.tsx";
 
-const mockSkills = ['Java', 'SQL', 'Figma', 'Projektmanagement', 'Kaffee'];
 
 const EditEmployeePage: React.FC = () => {
     const {id} = useParams<{id: string}>();
     const navigate = useNavigate();
     const {fetchEmployeeById, updateEmployee} = useEmployeeApi();
+    const {fetchQualifications} = useQualificationApi();
+
+
     
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
         street: '',
-        HauseNumber: '',
         postcode: '',
         city: '',
         phone: '',
     });
 
-    const [selectedSkills, setSelectedSkills] = useState<{id: number, skill: string}[]>([]);
     const [loading, setLoading] = useState(true);
+    const [selectedSkills, setSelectedSkills] = useState<{id: number, skill: string}[]>([]);
+    const [availableQualifications, setAvailableQualifications] = useState<Qualification[]>([]);
+    const {createQualification} = useQualificationApi();
+
 
     useEffect(() => {
-        if (id) {
-            fetchEmployeeById(Number(id)).then((employee) => {
+        const loadData = async () => {
+            if (id) {
+                const [employee, qualifications] = await Promise.all([
+                    fetchEmployeeById(Number(id)),
+                    fetchQualifications()
+                ]);
+
                 if (employee) {
                     setFormData({
                         firstName: employee.firstName,
                         lastName: employee.lastName,
                         street: employee.street,
-                        HauseNumber: String(employee.HauseNumber),
                         postcode: employee.postcode,
                         city: employee.city,
                         phone: employee.phone,
                     });
-                    setSelectedSkills(employee.skillSet);
+                    const sortedSkills = [...employee.skillSet].sort((a, b) => a.id - b.id);
+                    setSelectedSkills(sortedSkills);
                 }
+
+                if (qualifications) {
+                    setAvailableQualifications(qualifications);
+                }
+
                 setLoading(false);
-            });
-        }
+            }
+        };
+
+        loadData();
     }, [id]);
+
 
     const handleInputChange = (field: string, value: string) => {
         setFormData((prev) => ({...prev, [field]: value}));
     };
 
-    const handleAddSkill = (skill: string) => {
-        if (!selectedSkills.find(s => s.skill === skill)) {
-            setSelectedSkills((prev) => [...prev, {id: Date.now(), skill}]);
+    const handleAddSkill = (qualification: Qualification) => {
+        if (!selectedSkills.find(s => s.id === qualification.id)) {
+            setSelectedSkills((prev) => [...prev, {id: qualification.id, skill: qualification.skill}]);
         }
     };
 
-    const handleRemoveSkill = (skill: string) => {
-        setSelectedSkills((prev) => prev.filter((s) => s.skill !== skill));
+    const handleRemoveSkill = (skillId: number) => {
+        setSelectedSkills((prev) => prev.filter((s) => s.id !== skillId));
     };
+
+    const handleCreateNewQualification = async (name: string) => {
+        const created = await createQualification({skill: name});
+
+        if (created) {
+            setAvailableQualifications(prev => [...prev, created]);
+            handleAddSkill(created);
+        }
+    };
+
 
     const handleSave = async () => {
         if (!id) return;
@@ -76,11 +105,10 @@ const EditEmployeePage: React.FC = () => {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
                 street: formData.street,
-                // HauseNumber: Number(formData.HauseNumber) || 0,
                 postcode: formData.postcode,
                 city: formData.city,
                 phone: formData.phone,
-                skillSet: selectedSkills,
+                skillSet: selectedSkills.map(s => s.id),
             };
             
             console.log('Saving employee:', updatedEmployee);
@@ -130,17 +158,9 @@ const EditEmployeePage: React.FC = () => {
             <Row className="mb-3">
                 <Col md={9}>
                     <Form.Control
-                        placeholder="Straße"
+                        placeholder="Adresse"
                         value={formData.street}
-                        onChange={(e) => handleInputChange('street', e.target.value)}
-                        style={{backgroundColor: '#f8f9fa'}}
-                    />
-                </Col>
-                <Col md={3}>
-                    <Form.Control
-                        placeholder="Hausnummer"
-                        value={formData.HauseNumber}
-                        onChange={(e) => handleInputChange('HauseNumber', e.target.value)}
+                        onChange={(e) => handleInputChange('adress', e.target.value)}
                         style={{backgroundColor: '#f8f9fa'}}
                     />
                 </Col>
@@ -177,7 +197,7 @@ const EditEmployeePage: React.FC = () => {
             </Row>
 
             <Row className="mb-4">
-                <Col md={8}>
+                <Col md={6}>
                     <div
                         className="d-flex flex-wrap gap-2 p-3 border rounded"
                         style={{
@@ -186,14 +206,14 @@ const EditEmployeePage: React.FC = () => {
                             minHeight: '50px'
                         }}
                     >
-                        {selectedSkills.map((skill) => (
-                            <Badge bg="secondary" key={skill.id}>
+                        {selectedSkills.map((skill, index) => (
+                            <Badge bg="secondary" key={`skill-${index}`}>
                                 {skill.skill}{' '}
                                 <Button
                                     variant="link"
                                     size="sm"
                                     className="text-white text-decoration-none p-0 ms-1"
-                                    onClick={() => handleRemoveSkill(skill.skill)}
+                                    onClick={() => handleRemoveSkill(skill.id)}
                                 >
                                     &times;
                                 </Button>
@@ -201,17 +221,26 @@ const EditEmployeePage: React.FC = () => {
                         ))}
                     </div>
                 </Col>
-                <Col md={4}>
-                    <DropdownButton title="Hinzufügen" variant="outline-dark">
-                        {mockSkills.map((skill) => (
-                            <Dropdown.Item key={skill}
-                                           onClick={() => handleAddSkill(skill)}>
-                                {skill}
+                <Col md={6} className="d-flex gap-2">
+                    <DropdownButton
+                        title="Hinzufügen"
+                        variant="outline-secondary"
+                        className="dropdown-gray flex-shrink-0"
+                    >
+                        {availableQualifications.map((qual) => (
+                            <Dropdown.Item
+                                key={qual.id}
+                                onClick={() => handleAddSkill(qual)}
+                                className="text-dark"
+                            >
+                                {qual.skill}
                             </Dropdown.Item>
                         ))}
                     </DropdownButton>
+                    <AddQualificationInline onAdd={handleCreateNewQualification} />
                 </Col>
             </Row>
+
 
             <div className="d-flex justify-content-center gap-2">
                 <Button variant="secondary" onClick={() => navigate('/employees')}>
