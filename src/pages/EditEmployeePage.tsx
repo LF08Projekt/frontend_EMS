@@ -156,11 +156,11 @@ const EditEmployeePage: React.FC = () => {
             </Row>
 
             <Row className="mb-3">
-                <Col md={9}>
+                <Col>
                     <Form.Control
                         placeholder="Adresse"
                         value={formData.street}
-                        onChange={(e) => handleInputChange('adress', e.target.value)}
+                        onChange={(e) => handleInputChange('street', e.target.value)}
                         style={{backgroundColor: '#f8f9fa'}}
                     />
                 </Col>
