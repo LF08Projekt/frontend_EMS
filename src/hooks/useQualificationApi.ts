@@ -106,7 +106,11 @@ export function useQualificationApi() {
             );
 
             if (!response.ok) {
-                setError("Fehler beim Löschen der Qualifikation");
+                if (response.status === 500) {
+                    setError("Diese Qualifikation kann nicht gelöscht werden, da sie noch Mitarbeitern zugewiesen ist.");
+                } else {
+                    setError("Fehler beim Löschen der Qualifikation");
+                }
                 return false;
             }
 
