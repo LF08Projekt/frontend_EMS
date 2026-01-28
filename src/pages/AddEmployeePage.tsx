@@ -6,17 +6,18 @@ import {
     Form,
     Badge,
     Dropdown,
-    DropdownButton,
+    DropdownButton, Button,
 } from 'react-bootstrap';
 import {PrimaryButton} from "../components/Button.tsx";
 import {useEmployeeApi} from "../hooks/useEmployeeApi.ts";
 import {useQualificationApi} from "../hooks/useQualificationApi.ts";
 import {useNavigate} from "react-router-dom";
 import type {Qualification} from "../types/employee.ts";
+import {AddQualificationInline} from "../components/AddQualificationInline.tsx";
 
 const AddEmployeePage: React.FC = () => {
     const {createEmployee, loading, error} = useEmployeeApi();
-    const {fetchQualifications} = useQualificationApi();
+    const {fetchQualifications, createQualification} = useQualificationApi();
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -55,6 +56,15 @@ const AddEmployeePage: React.FC = () => {
 
     const handleRemoveSkill = (skillId: number) => {
         setSelectedSkills((prev) => prev.filter((s) => s.id !== skillId));
+    };
+
+    const handleCreateNewQualification = async (name: string) => {
+        const created = await createQualification({skill: name});
+
+        if (created) {
+            setAvailableSkills(prev => [...prev, created]);
+            handleAddSkill(created);
+        }
     };
 
     const handleSave = async () => {
@@ -149,42 +159,65 @@ const AddEmployeePage: React.FC = () => {
                 </Col>
             </Row>
 
-            <Row className="mb-3">
-                <Col>
-                    <h5>Qualifikationen</h5>
-                    <DropdownButton title="Qualifikation hinzufügen" variant="outline-secondary">
+            <Row className="mb-4">
+                <Col md={6}>
+                    <div
+                        className="d-flex flex-wrap gap-2 p-3 border rounded"
+                        style={{
+                            borderColor: '#dee2e6',
+                            backgroundColor: '#f8f9fa',
+                            minHeight: '50px'
+                        }}
+                    >
+                        {selectedSkills.map((skill) => (
+                            <Badge bg="secondary" key={skill.id}>
+                                {skill.skill}{' '}
+                                <Button
+                                    variant="link"
+                                    size="sm"
+                                    className="text-white text-decoration-none p-0 ms-1"
+                                    onClick={() => handleRemoveSkill(skill.id)}
+                                >
+                                    &times;
+                                </Button>
+                            </Badge>
+                        ))}
+                    </div>
+                </Col>
+                <Col md={6} className="d-flex gap-2">
+                    <DropdownButton
+                        title="Hinzufügen"
+                        variant="outline-secondary"
+                        className="dropdown-gray flex-shrink-0"
+                    >
                         {availableSkills.map((skill) => (
-                            <Dropdown.Item key={skill.id} onClick={() => handleAddSkill(skill)}>
+                            <Dropdown.Item
+                                key={skill.id}
+                                onClick={() => handleAddSkill(skill)}
+                                className="text-dark"
+                            >
                                 {skill.skill}
                             </Dropdown.Item>
                         ))}
                     </DropdownButton>
+                    <AddQualificationInline onAdd={handleCreateNewQualification} />
                 </Col>
             </Row>
 
-            <Row className="mb-4">
-                <Col>
-                    {selectedSkills.map((skill) => (
-                        <Badge
-                            key={skill.id}
-                            bg="primary"
-                            className="me-2"
-                            style={{cursor: 'pointer'}}
-                            onClick={() => handleRemoveSkill(skill.id)}
-                        >
-                            {skill.skill} ×
-                        </Badge>
-                    ))}
-                </Col>
-            </Row>
 
-            <div className="d-flex justify-content-center">
+
+            <Row>
+                <div className="d-flex justify-content-center gap-2">
+            <Button variant="secondary" onClick={() => navigate('/employees')}>
+                    Abbrechen
+            </Button>
                 <PrimaryButton
                     label={loading ? "Wird gespeichert..." : "Speichern"}
                     onClick={handleSave}
                     disabled={loading}
                 />
-            </div>
+                </div>
+            </Row>
         </Container>
     );
 };
