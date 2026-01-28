@@ -9,6 +9,8 @@ import EditEmployeePage from "./pages/EditEmployeePage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import {useAuth} from "react-oidc-context";
 import CallbackPage from "./pages/CallbackPage.tsx";
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 
 
 function App() {
@@ -25,12 +27,21 @@ function App() {
                                 <Nav.Link as={Link} to="/employees">Mitarbeiter</Nav.Link>
                                 <Nav.Link as={Link} to="/qualifications">Qualifikationen</Nav.Link>
                             </Nav>
+                            <Nav className="ms-auto">
+                                <button
+                                    onClick={() => auth.signoutRedirect()}
+                                    title="Logout"
+                                    className="logout-icon-only"
+                                >
+                                    <i className="bi bi-box-arrow-right"></i>
+                                </button>
+                            </Nav>
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
             )}
             <Routes>
-                <Route path="/" element={!auth.isAuthenticated ? <LoginPage/> : <Navigate to="/employees"/>}/>
+            <Route path="/" element={!auth.isAuthenticated ? <LoginPage/> : <Navigate to="/employees"/>}/>
                 <Route path="/callback" element={<CallbackPage/>}/>
                 <Route path="/employees" element={
                     <RequireAuth>
