@@ -108,11 +108,7 @@ const EditEmployeePage: React.FC = () => {
                 postcode: formData.postcode,
                 city: formData.city,
                 phone: formData.phone,
-<<<<<<< HEAD
                 skillSet: selectedSkills.map(skill => skill.id),
-=======
-                skillSet: selectedSkills.map(s => s.id),
->>>>>>> 57af47723cf4920ca843d3966cc2cca8a8110e61
             };
             
             console.log('Saving employee:', updatedEmployee);
