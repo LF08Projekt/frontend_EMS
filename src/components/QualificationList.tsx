@@ -8,7 +8,7 @@ export type Qualification = {
 
 type QualificationListProps = {
     qualifications: Qualification[];
-    onEdit?: (qualification: Qualification) => void;
+    onEdit?: (qualification: Qualification,  newName: string) => void;
     onDelete?: (qualification: Qualification) => void;
 };
 
