@@ -12,7 +12,7 @@ import GenericModal from "../components/Deletemodal.tsx";
 
 
 export function QualificationListPage() {
-    const {fetchQualifications, createQualification, deleteQualification, loading, error} = useQualificationApi();
+    const {fetchQualifications, createQualification, updateQualification, deleteQualification, loading, error} = useQualificationApi();
     const [qualifications, setQualifications] = useState<Qualification[]>([]);
     const [search, setSearch] = useState("");
     const [isAdding, setIsAdding] = useState(false);
@@ -57,9 +57,12 @@ export function QualificationListPage() {
         setIsAdding(false);
     }
 
-    function handleEdit(q: Qualification, newName: string) {
+    async function handleEdit(q: Qualification, newName: string) {
         const name = newName.trim();
         if (!name) return;
+
+        const updated = await updateQualification(q.id, {skill: name});
+        if (!updated) return;
 
         setQualifications((prev) =>
             prev.map((x) => (x.id === q.id ? { ...x, name } : x))

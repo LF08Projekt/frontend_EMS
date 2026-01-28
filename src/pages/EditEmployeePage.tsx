@@ -80,7 +80,7 @@ const EditEmployeePage: React.FC = () => {
                 postcode: formData.postcode,
                 city: formData.city,
                 phone: formData.phone,
-                skillSet: selectedSkills,
+                skillSet: selectedSkills.map(skill => skill.id),
             };
             
             console.log('Saving employee:', updatedEmployee);
