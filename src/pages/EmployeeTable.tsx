@@ -1,7 +1,6 @@
 import {Container} from "react-bootstrap";
 import {useEmployeeApi} from "../hooks/useEmployeeApi.ts";
 import {useEffect, useState} from "react";
-import EmployeeSearchBar from "../components/SearchBar.tsx";
 import type {Employee} from "../types/employee";
 import {PrimaryButton} from "../components/Button.tsx";
 import DetailCard from "../components/DetailCard.tsx";
@@ -9,6 +8,9 @@ import {useNavigate} from "react-router-dom";
 import EmployeeList from "../components/EmployeeList.tsx";
 import "./EmployeeTable.css";
 import GenericModal from "../components/Deletemodal.tsx";
+import {useDebounce} from "../hooks/useDebounce.ts";
+import SearchBar from "../components/SearchBar.tsx";
+
 
 export function EmployeeTable() {
     const {fetchEmployees, deleteEmployee, loading, error} = useEmployeeApi();
@@ -18,31 +20,44 @@ export function EmployeeTable() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+    const debouncedSearch = useDebounce(searchTerm, 500);
+
 
     useEffect(() => {
+        const loadEmployees = async () => {
+            const data = await fetchEmployees();
+            if (data) {
+                setEmployees(data);
+                setFilteredEmployees(data);
+            }
+        };
+
         loadEmployees();
     }, []);
 
-    const loadEmployees = async () => {
-        const data = await fetchEmployees();
-        if (data) {
-            setEmployees(data);
-            setFilteredEmployees(data);
-        }
-    };
 
     const handleSearch = (query: string) => {
+        const lower = query.toLowerCase();
+
         const filtered = employees.filter(emp =>
-            emp.firstName.toLowerCase().includes(query.toLowerCase()) ||
-            emp.lastName.toLowerCase().includes(query.toLowerCase()) ||
-            emp.city.toLowerCase().includes(query.toLowerCase())
+            emp.firstName.toLowerCase().includes(lower) ||
+            emp.lastName.toLowerCase().includes(lower) ||
+            emp.city.toLowerCase().includes(lower) ||
+            emp.skillSet.some(skill => skill.skill.toLowerCase().includes(lower))
         );
+
         setFilteredEmployees(filtered);
     };
+
+    useEffect(() => {
+        handleSearch(debouncedSearch);
+    }, [debouncedSearch]);
 
     const handleEdit = (employee: Employee) => {
         navigate(`/editemployee/${employee.id}`);
     };
+
 
     const handleDelete = (employee: Employee) => {
         setEmployeeToDelete(employee);
@@ -53,7 +68,9 @@ export function EmployeeTable() {
         if (employeeToDelete?.id) {
             const success = await deleteEmployee(employeeToDelete.id);
             if (success) {
-                await loadEmployees();
+                const data = await fetchEmployees();
+                setEmployees(data || []);
+                setFilteredEmployees(data || []);
                 setIsModalOpen(false);
                 setEmployeeToDelete(null);
             }
@@ -105,9 +122,9 @@ export function EmployeeTable() {
             </div>
 
             <div className="employee-search-panel">
-                <EmployeeSearchBar
+                <SearchBar
                     placeholder="Mitarbeiter suchen..."
-                    onSearch={handleSearch}
+                    onSearch={(value) => setSearchTerm(value)}
                 />
             </div>
 
