@@ -2,7 +2,7 @@ import "./QualificationListPage.css";
 import {Container} from "react-bootstrap";
 import {useEffect, useMemo, useState} from "react";
 import QualificationList from "../components/QualificationList";
-import type {Qualification} from "../components/QualificationList";
+import type {Qualification} from '../types/employee.ts';
 import TextInput from "../components/Textfield";
 import {PrimaryButton} from "../components/Button";
 import {AiFillPlusCircle} from "react-icons/ai";
@@ -32,7 +32,7 @@ export function QualificationListPage() {
         if (!data) return;
 
         setQualifications(
-            data.map(q => ({id: q.id, name: q.skill}))
+            data.map(q => ({id: q.id, skill: q.skill}))
         );
     };
 
@@ -43,7 +43,7 @@ export function QualificationListPage() {
     const filteredQualifications = useMemo(() => {
         const q = search.trim().toLowerCase();
         if (!q) return qualifications;
-        return qualifications.filter((x) => x.name.toLowerCase().includes(q));
+        return qualifications.filter((x) => x.skill.toLowerCase().includes(q));
     }, [qualifications, search]);
 
     function toggleAdd() {
@@ -58,7 +58,7 @@ export function QualificationListPage() {
         const created = await createQualification({skill: name});
         if (!created) return;
 
-        setQualifications((prev) => [{id: created.id, name: created.skill}, ...prev]);
+        setQualifications((prev) => [{id: created.id, skill: created.skill}, ...prev]);
 
         setNewName("");
         setIsAdding(false);
@@ -156,7 +156,7 @@ export function QualificationListPage() {
                 body={
                     <>
                         Wollen Sie die
-                        Qualifikation <strong>{qualificationToDelete?.name}</strong> wirklich
+                        Qualifikation <strong>{qualificationToDelete?.skill}</strong> wirklich
                         löschen?
                     </>
                 }

@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
 import {Button, Form} from 'react-bootstrap';
 import {FaTrash, FaPen, FaCheck, FaTimes} from 'react-icons/fa';
+import type {Qualification} from '../types/employee.ts';
 
-type Qualification = {
-    id: number;
-    name: string;
-};
 
 type QualificationListItemProps = {
     qualification: Qualification;
@@ -15,23 +12,23 @@ type QualificationListItemProps = {
 
 const QualificationListItem: React.FC<QualificationListItemProps> = ({qualification, onEdit, onDelete}) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [editValue, setEditValue] = useState(qualification.name);
+    const [editValue, setEditValue] = useState(qualification.skill);
 
     const handleStartEdit = () => {
-        setEditValue(qualification.name);
+        setEditValue(qualification.skill);
         setIsEditing(true);
     };
 
     const handleSaveEdit = () => {
         const trimmed = editValue.trim();
-        if (trimmed && trimmed !== qualification.name) {
+        if (trimmed && trimmed !== qualification.skill) {
             onEdit?.(qualification, trimmed);
         }
         setIsEditing(false);
     };
 
     const handleCancelEdit = () => {
-        setEditValue(qualification.name);
+        setEditValue(qualification.skill);
         setIsEditing(false);
     };
 
@@ -56,7 +53,7 @@ const QualificationListItem: React.FC<QualificationListItemProps> = ({qualificat
                         style={{backgroundColor: '#f8f9fa'}}
                     />
                 ) : (
-                    qualification.name
+                    qualification.skill
                 )}
             </td>
             <td>
