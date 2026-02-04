@@ -98,6 +98,10 @@ const EditEmployeePage: React.FC = () => {
 
     const handleSave = async () => {
         if (!id) return;
+        if (!formData.firstName || !formData.lastName || !formData.city || !formData.postcode || !formData.street) {
+            alert("Bitte füllen Sie alle Pflichtfelder aus");
+            return;
+        }
 
         try {
             const updatedEmployee = {
@@ -192,6 +196,9 @@ const EditEmployeePage: React.FC = () => {
                         onChange={(e) => handleInputChange('phone', e.target.value)}
                         style={{backgroundColor: '#f8f9fa'}}
                     />
+                    <Form.Text className="text-muted">
+                        * optional
+                    </Form.Text>
                 </Col>
             </Row>
 

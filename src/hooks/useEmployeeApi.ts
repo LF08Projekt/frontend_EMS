@@ -78,7 +78,29 @@ export function useEmployeeApi() {
             });
 
             if (!response.ok) {
-                setError("Fehler beim Erstellen des Mitarbeiters");
+                let errorMessage = "Fehler beim Erstellen des Mitarbeiters";
+
+                try {
+                    const errorData = await response.json();
+
+                    if (errorData.message) {
+                        errorMessage = errorData.message;
+                    } else if (errorData.errors && Array.isArray(errorData.errors)) {
+                        errorMessage = errorData.errors
+                            .map((err: Error) => err.message || err)
+                            .join(", ");
+                    } else if (errorData.fieldErrors) {
+
+                        errorMessage = Object.entries(errorData.fieldErrors)
+                            .map(([field, msg]) => `${field}: ${msg}`)
+                            .join("; ");
+                    }
+                } catch {
+
+                    errorMessage = `Fehler ${response.status}: ${response.statusText}`;
+                }
+
+                setError(errorMessage);
                 return null;
             }
 
