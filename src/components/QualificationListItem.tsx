@@ -45,7 +45,7 @@ const QualificationListItem: React.FC<QualificationListItemProps> = ({ qualifica
 
     return (
         <tr>
-            <td>
+            <td style={{width:'50%'}}>
                 {isEditing ? (
                     <Form.Control
                         type="text"

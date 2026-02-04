@@ -1,5 +1,5 @@
 import { Table } from 'react-bootstrap';
-import EmployeeListItem from "./ListItem.tsx";
+import EmployeeListItem from "./EmployeeListItem.tsx";
 import type { Employee } from "../types/employee";
 
 type EmployeeListProps = {

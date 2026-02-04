@@ -7,7 +7,6 @@ export function useQualificationApi() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    //Noch Testen!
     const getAuthHeaders = () => {
         const headers: Record<string, string> = {"Content-Type": "application/json"};
         if (auth.user?.access_token) headers["Authorization"] = `Bearer ${auth.user.access_token}`;
