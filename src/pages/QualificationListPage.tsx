@@ -72,7 +72,7 @@ export function QualificationListPage() {
         if (!updated) return;
 
         setQualifications((prev) =>
-            prev.map((x) => (x.id === q.id ? {...x, name} : x))
+            prev.map((x) => (x.id === q.id ? {...x, skill:name} : x))
         );
     }
 
