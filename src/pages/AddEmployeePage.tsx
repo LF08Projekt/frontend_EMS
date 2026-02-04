@@ -68,7 +68,7 @@ const AddEmployeePage: React.FC = () => {
     };
 
     const handleSave = async () => {
-        if (!formData.firstName || !formData.lastName || !formData.city) {
+        if (!formData.firstName || !formData.lastName || !formData.city || !formData.postcode || !formData.houseNumber || !formData.street) {
             alert("Bitte füllen Sie alle Pflichtfelder aus");
             return;
         }
@@ -80,7 +80,7 @@ const AddEmployeePage: React.FC = () => {
             postcode: formData.postcode,
             city: formData.city,
             phone: formData.phone,
-            skillSet: selectedSkills.map(skill => skill.id) // Nur IDs senden
+            skillSet: selectedSkills.map(skill => skill.id)
         };
 
         const result = await createEmployee(employeeData);
@@ -154,6 +154,9 @@ const AddEmployeePage: React.FC = () => {
                         value={formData.phone}
                         onChange={(e) => handleInputChange('phone', e.target.value)}
                     />
+                    <Form.Text className="text-muted">
+                        * optional
+                    </Form.Text>
                 </Col>
             </Row>
 
