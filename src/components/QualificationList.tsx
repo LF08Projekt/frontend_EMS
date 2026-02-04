@@ -1,10 +1,7 @@
 import {Table} from "react-bootstrap";
 import QualificationListItem from "./QualificationListItem.tsx";
+import type {Qualification} from '../types/employee.ts';
 
-export type Qualification = {
-    id: number;
-    name: string;
-};
 
 type QualificationListProps = {
     qualifications: Qualification[];
