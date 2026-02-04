@@ -18,13 +18,12 @@ import {AddQualificationInline} from "../components/AddQualificationInline.tsx";
 
 
 const EditEmployeePage: React.FC = () => {
-    const {id} = useParams<{id: string}>();
+    const {id} = useParams<{ id: string }>();
     const navigate = useNavigate();
     const {fetchEmployeeById, updateEmployee} = useEmployeeApi();
     const {fetchQualifications} = useQualificationApi();
 
 
-    
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -35,7 +34,7 @@ const EditEmployeePage: React.FC = () => {
     });
 
     const [loading, setLoading] = useState(true);
-    const [selectedSkills, setSelectedSkills] = useState<{id: number, skill: string}[]>([]);
+    const [selectedSkills, setSelectedSkills] = useState<{ id: number, skill: string }[]>([]);
     const [availableQualifications, setAvailableQualifications] = useState<Qualification[]>([]);
     const {createQualification} = useQualificationApi();
 
@@ -99,7 +98,7 @@ const EditEmployeePage: React.FC = () => {
 
     const handleSave = async () => {
         if (!id) return;
-        
+
         try {
             const updatedEmployee = {
                 firstName: formData.firstName,
@@ -110,11 +109,11 @@ const EditEmployeePage: React.FC = () => {
                 phone: formData.phone,
                 skillSet: selectedSkills.map(skill => skill.id),
             };
-            
+
             console.log('Saving employee:', updatedEmployee);
             const result = await updateEmployee(Number(id), updatedEmployee);
             console.log('Update result:', result);
-            
+
             if (result) {
                 console.log('Success! Navigating back to employees');
                 navigate('/employees');
@@ -136,8 +135,8 @@ const EditEmployeePage: React.FC = () => {
         <Container className="py-4">
             <h3 className="mb-4">Mitarbeiter bearbeiten</h3>
 
-            <Row className="mb-3">
-                <Col md={6}>
+            <Row className="g-3 mb-3">
+                <Col xs={12} md={6}>
                     <Form.Control
                         placeholder="Vorname"
                         value={formData.firstName}
@@ -145,7 +144,7 @@ const EditEmployeePage: React.FC = () => {
                         style={{backgroundColor: '#f8f9fa'}}
                     />
                 </Col>
-                <Col md={6}>
+                <Col xs={12} md={6}>
                     <Form.Control
                         placeholder="Nachname"
                         value={formData.lastName}
@@ -155,8 +154,8 @@ const EditEmployeePage: React.FC = () => {
                 </Col>
             </Row>
 
-            <Row className="mb-3">
-                <Col>
+            <Row className="g-3 mb-3">
+                <Col xs={12}>
                     <Form.Control
                         placeholder="Adresse"
                         value={formData.street}
@@ -166,8 +165,8 @@ const EditEmployeePage: React.FC = () => {
                 </Col>
             </Row>
 
-            <Row className="mb-3">
-                <Col md={3}>
+            <Row className="g-3 mb-3">
+                <Col xs={12} md={3}>
                     <Form.Control
                         placeholder="Postleitzahl"
                         value={formData.postcode}
@@ -175,7 +174,7 @@ const EditEmployeePage: React.FC = () => {
                         style={{backgroundColor: '#f8f9fa'}}
                     />
                 </Col>
-                <Col md={9}>
+                <Col xs={12} md={9}>
                     <Form.Control
                         placeholder="Ort"
                         value={formData.city}
@@ -185,8 +184,8 @@ const EditEmployeePage: React.FC = () => {
                 </Col>
             </Row>
 
-            <Row className="mb-3">
-                <Col md={6}>
+            <Row className="g-3 mb-3">
+                <Col xs={12} md={6}>
                     <Form.Control
                         placeholder="Telefon"
                         value={formData.phone}
@@ -196,8 +195,8 @@ const EditEmployeePage: React.FC = () => {
                 </Col>
             </Row>
 
-            <Row className="mb-4">
-                <Col md={6}>
+            <Row className="g-3 mb-4">
+                <Col xs={12} md={6}>
                     <div
                         className="d-flex flex-wrap gap-2 p-3 border rounded"
                         style={{
@@ -221,7 +220,7 @@ const EditEmployeePage: React.FC = () => {
                         ))}
                     </div>
                 </Col>
-                <Col md={6} className="d-flex gap-2">
+                <Col xs={12} md={6} className="d-flex gap-2">
                     <DropdownButton
                         title="Hinzufügen"
                         variant="outline-secondary"
@@ -237,7 +236,7 @@ const EditEmployeePage: React.FC = () => {
                             </Dropdown.Item>
                         ))}
                     </DropdownButton>
-                    <AddQualificationInline onAdd={handleCreateNewQualification} />
+                    <AddQualificationInline onAdd={handleCreateNewQualification}/>
                 </Col>
             </Row>
 
@@ -246,7 +245,7 @@ const EditEmployeePage: React.FC = () => {
                 <Button variant="secondary" onClick={() => navigate('/employees')}>
                     Abbrechen
                 </Button>
-                <PrimaryButton 
+                <PrimaryButton
                     label={"Änderungen speichern"}
                     onClick={handleSave}
                 />

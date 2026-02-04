@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Button, Form, InputGroup } from 'react-bootstrap';
-import { AiFillPlusCircle } from 'react-icons/ai';
+import React, {useState} from 'react';
+import {Button, Form, InputGroup} from 'react-bootstrap';
+import {AiFillPlusCircle} from 'react-icons/ai';
 
 interface AddQualificationInlineProps {
     onAdd: (qualificationName: string) => Promise<void>;
 }
 
-export const AddQualificationInline: React.FC<AddQualificationInlineProps> = ({ onAdd }) => {
+export const AddQualificationInline: React.FC<AddQualificationInlineProps> = ({onAdd}) => {
     const [isAdding, setIsAdding] = useState(false);
     const [newName, setNewName] = useState('');
     const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ export const AddQualificationInline: React.FC<AddQualificationInlineProps> = ({ 
                 variant="outline-secondary"
                 onClick={() => setIsAdding(true)}
                 className="w-100"
-                style={{ height: '38px' }}
+                style={{height: '38px'}}
             >
                 + Neue Qualifikation
             </Button>
@@ -39,7 +39,7 @@ export const AddQualificationInline: React.FC<AddQualificationInlineProps> = ({ 
     }
 
     return (
-        <InputGroup style={{ height: '38px' }}>
+        <InputGroup style={{height: '38px'}}>
             <Form.Control
                 placeholder="Qualifikation eingeben"
                 value={newName}
@@ -47,15 +47,15 @@ export const AddQualificationInline: React.FC<AddQualificationInlineProps> = ({ 
                 onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
                 disabled={loading}
                 autoFocus
-                style={{ height: '38px' }}
+                style={{height: '38px'}}
             />
             <Button
                 variant="success"
                 onClick={handleAdd}
                 disabled={loading || !newName.trim()}
-                style={{ height: '38px' }}
+                style={{height: '38px'}}
             >
-                <AiFillPlusCircle />
+                <AiFillPlusCircle/>
             </Button>
             <Button
                 variant="secondary"
@@ -64,7 +64,7 @@ export const AddQualificationInline: React.FC<AddQualificationInlineProps> = ({ 
                     setNewName('');
                 }}
                 disabled={loading}
-                style={{ height: '38px' }}
+                style={{height: '38px'}}
             >
                 ✕
             </Button>

@@ -28,12 +28,14 @@ const EmployeeListItem: React.FC<EmployeeListItemProps> = ({employee, onEdit, on
                 </div>
             </td>
             <td onClick={(e) => e.stopPropagation()}>
-                <Button variant="outline-dark" size="sm" className="me-2" onClick={() => onEdit?.(employee)}>
-                    <FaPen/>
-                </Button>
-                <Button variant="outline-danger" size="sm" onClick={() => onDelete?.(employee)}>
-                    <FaTrash/>
-                </Button>
+                <div className="d-flex flex-column flex-md-row gap-2 align-items-start">
+                    <Button variant="outline-dark" size="sm" onClick={() => onEdit?.(employee)}>
+                        <FaPen/>
+                    </Button>
+                    <Button variant="outline-danger" size="sm" onClick={() => onDelete?.(employee)}>
+                        <FaTrash/>
+                    </Button>
+                </div>
             </td>
         </tr>
     );

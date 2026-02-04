@@ -1,4 +1,4 @@
-import { Table } from "react-bootstrap";
+import {Table} from "react-bootstrap";
 import QualificationListItem from "./QualificationListItem.tsx";
 
 export type Qualification = {
@@ -8,11 +8,11 @@ export type Qualification = {
 
 type QualificationListProps = {
     qualifications: Qualification[];
-    onEdit?: (qualification: Qualification,  newName: string) => void;
+    onEdit?: (qualification: Qualification, newName: string) => void;
     onDelete?: (qualification: Qualification) => void;
 };
 
-function QualificationList({ qualifications, onEdit, onDelete }: QualificationListProps) {
+function QualificationList({qualifications, onEdit, onDelete}: QualificationListProps) {
     return (
         <Table striped bordered hover responsive>
             <thead>

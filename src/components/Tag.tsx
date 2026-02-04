@@ -5,7 +5,7 @@ interface TagProps {
     variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info';
 }
 
-export const Tag: React.FC<TagProps> = ({ label, variant = 'primary' }) => {
+export const Tag: React.FC<TagProps> = ({label, variant = 'primary'}) => {
     return (
         <span className={`qualification-tag ${variant}`}>
             {label}

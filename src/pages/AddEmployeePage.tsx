@@ -90,22 +90,21 @@ const AddEmployeePage: React.FC = () => {
     };
 
 
-
     return (
         <Container className="py-4">
             <h3 className="mb-4">Mitarbeiter hinzufügen</h3>
 
             {error && <div className="alert alert-danger">{error}</div>}
 
-            <Row className="mb-3">
-                <Col md={6}>
+            <Row className="g-3 mb-3">
+                <Col xs={12} md={6}>
                     <Form.Control
                         placeholder="Vorname"
                         value={formData.firstName}
                         onChange={(e) => handleInputChange('firstName', e.target.value)}
                     />
                 </Col>
-                <Col md={6}>
+                <Col xs={12} md={6}>
                     <Form.Control
                         placeholder="Nachname"
                         value={formData.lastName}
@@ -114,15 +113,15 @@ const AddEmployeePage: React.FC = () => {
                 </Col>
             </Row>
 
-            <Row className="mb-3">
-                <Col md={9}>
+            <Row className="g-3 mb-3">
+                <Col xs={12} md={9}>
                     <Form.Control
                         placeholder="Straße"
                         value={formData.street}
                         onChange={(e) => handleInputChange('street', e.target.value)}
                     />
                 </Col>
-                <Col md={3}>
+                <Col xs={12} md={3}>
                     <Form.Control
                         placeholder="Hausnummer"
                         value={formData.houseNumber}
@@ -131,15 +130,15 @@ const AddEmployeePage: React.FC = () => {
                 </Col>
             </Row>
 
-            <Row className="mb-3">
-                <Col md={6}>
+            <Row className="g-3 mb-3">
+                <Col xs={12} md={6}>
                     <Form.Control
                         placeholder="PLZ"
                         value={formData.postcode}
                         onChange={(e) => handleInputChange('postcode', e.target.value)}
                     />
                 </Col>
-                <Col md={6}>
+                <Col xs={12} md={6}>
                     <Form.Control
                         placeholder="Stadt"
                         value={formData.city}
@@ -148,8 +147,8 @@ const AddEmployeePage: React.FC = () => {
                 </Col>
             </Row>
 
-            <Row className="mb-4">
-                <Col md={12}>
+            <Row className="g-3 mb-4">
+                <Col xs={12}>
                     <Form.Control
                         placeholder="Telefon"
                         value={formData.phone}
@@ -158,8 +157,8 @@ const AddEmployeePage: React.FC = () => {
                 </Col>
             </Row>
 
-            <Row className="mb-4">
-                <Col md={6}>
+            <Row className="g-3 mb-4">
+                <Col xs={12} md={6}>
                     <div
                         className="d-flex flex-wrap gap-2 p-3 border rounded"
                         style={{
@@ -183,7 +182,7 @@ const AddEmployeePage: React.FC = () => {
                         ))}
                     </div>
                 </Col>
-                <Col md={6} className="d-flex gap-2">
+                <Col xs={12} md={6} className="d-flex gap-2">
                     <DropdownButton
                         title="Hinzufügen"
                         variant="outline-secondary"
@@ -199,22 +198,21 @@ const AddEmployeePage: React.FC = () => {
                             </Dropdown.Item>
                         ))}
                     </DropdownButton>
-                    <AddQualificationInline onAdd={handleCreateNewQualification} />
+                    <AddQualificationInline onAdd={handleCreateNewQualification}/>
                 </Col>
             </Row>
 
 
-
             <Row>
                 <div className="d-flex justify-content-center gap-2">
-            <Button variant="secondary" onClick={() => navigate('/employees')}>
-                    Abbrechen
-            </Button>
-                <PrimaryButton
-                    label={loading ? "Wird gespeichert..." : "Speichern"}
-                    onClick={handleSave}
-                    disabled={loading}
-                />
+                    <Button variant="secondary" onClick={() => navigate('/employees')}>
+                        Abbrechen
+                    </Button>
+                    <PrimaryButton
+                        label={loading ? "Wird gespeichert..." : "Speichern"}
+                        onClick={handleSave}
+                        disabled={loading}
+                    />
                 </div>
             </Row>
         </Container>

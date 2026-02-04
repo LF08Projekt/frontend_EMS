@@ -1,6 +1,6 @@
-import { Table } from 'react-bootstrap';
+import {Table} from 'react-bootstrap';
 import EmployeeListItem from "./EmployeeListItem.tsx";
-import type { Employee } from "../types/employee";
+import type {Employee} from "../types/employee";
 
 type EmployeeListProps = {
     employees: Employee[];
@@ -9,7 +9,7 @@ type EmployeeListProps = {
     onRowClick?: (employee: Employee) => void;
 };
 
-function EmployeeList({ employees, onEdit, onDelete, onRowClick }: EmployeeListProps) {
+function EmployeeList({employees, onEdit, onDelete, onRowClick}: EmployeeListProps) {
     return (
         <Table striped bordered hover responsive>
             <thead>
