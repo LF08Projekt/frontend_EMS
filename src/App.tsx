@@ -63,7 +63,6 @@ function App() {
                         <EditEmployeePage/>
                     </RequireAuth>
                 }/>
-                {/* Fallback */}
                 <Route path="*" element={<Navigate to="/"/>}/>
             </Routes>
 

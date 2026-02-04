@@ -1,9 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 import {Button, Spinner} from "react-bootstrap";
-import type {Employee} from "../types/employee";
-import editIcon from "../assets/edit.svg.png";
-import deleteIcon from "../assets/delete.svg.png";
 
 interface PrimaryButtonProps {
     label: string;
@@ -48,41 +44,4 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> =
                 )}
             </Button>
         );
-    };
-
-interface ActionButtonProps {
-    employee: Employee;
-    onEdit?: (employee: Employee) => void;
-    onDelete?: (employeeId: Employee) => void;
-}
-
-export const ActionButtons: React.FC<ActionButtonProps> = ({
-                                                               employee,
-                                                               onEdit,
-                                                               onDelete,
-                                                           }) => {
-    return (
-        <div className="action-buttons">
-            <Button
-                onClick={() => onEdit?.(employee)}
-                className="edit-button"
-                title="edit"
-                variant="light"
-                size="sm"
-            >
-                <img src={editIcon} alt="Edit"
-                     style={{width: '30px', height: '30px'}}/>
-            </Button>
-            <Button
-                onClick={() => onDelete?.(employee)}
-                className="delete-button"
-                title="delete"
-                variant="light"
-                size="sm"
-            >
-                <img src={deleteIcon} alt="Delete"
-                     style={{width: '25px', height: '25px'}}/>
-            </Button>
-        </div>
-    );
-}
+};

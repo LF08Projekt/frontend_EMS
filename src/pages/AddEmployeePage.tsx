@@ -68,7 +68,6 @@ const AddEmployeePage: React.FC = () => {
     };
 
     const handleSave = async () => {
-        // Validierung
         if (!formData.firstName || !formData.lastName || !formData.city) {
             alert("Bitte füllen Sie alle Pflichtfelder aus");
             return;

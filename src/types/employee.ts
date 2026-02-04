@@ -1,10 +1,8 @@
-//"Richtiges Format wie im BE"
 export interface Qualification {
     id: number;
     skill: string;
 }
 
-//"Richtiges Format wie im BE"
 export interface Employee {
     id: number;
     firstName: string;
@@ -17,7 +15,6 @@ export interface Employee {
 
 }
 
-// Für POST(create) /employees weil hier keine ID übergeben wird
 export interface CreateEmployeeDto {
     firstName: string;
     lastName: string;
@@ -25,7 +22,5 @@ export interface CreateEmployeeDto {
     postcode: string;
     city: string;
     phone: string;
-    skillSet: number[]; // kann leer sein, [] erlaubt
+    skillSet: number[];
 }
-
-//Alles nochmal testen

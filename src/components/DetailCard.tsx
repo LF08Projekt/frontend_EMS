@@ -27,7 +27,6 @@ export const DetailCard: React.FC<DetailCardProps> = ({ employee, isOpen, onClos
             </Modal.Header>
             <Modal.Body className="detail-card-body">
                 <div className="detail-card-container">
-                    {/* Avatar Section */}
                     <div className="avatar-section">
                         <div className="avatar-circle">
                             <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
@@ -43,7 +42,6 @@ export const DetailCard: React.FC<DetailCardProps> = ({ employee, isOpen, onClos
                         </button>
                     </div>
 
-                    {/* Employee Info Grid */}
                     <div className="employee-info">
                         <div className="info-row">
                             <div className="info-column">
@@ -85,7 +83,6 @@ export const DetailCard: React.FC<DetailCardProps> = ({ employee, isOpen, onClos
                             </div>
                         </div>
 
-                        {/* Qualifications Section */}
                         <div className="qualifications-section">
                             <label>Qualifikationen</label>
                             <div className="qualification-tags">

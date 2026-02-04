@@ -161,5 +161,3 @@ export function EmployeeTable() {
 }
 
 export default EmployeeTable;
-
-
