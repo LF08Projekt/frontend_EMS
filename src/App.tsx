@@ -12,7 +12,6 @@ import CallbackPage from "./pages/CallbackPage.tsx";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 
-
 function App() {
     const auth = useAuth();
 
@@ -41,7 +40,7 @@ function App() {
                 </Navbar>
             )}
             <Routes>
-            <Route path="/" element={!auth.isAuthenticated ? <LoginPage/> : <Navigate to="/employees"/>}/>
+                <Route path="/" element={!auth.isAuthenticated ? <LoginPage/> : <Navigate to="/employees"/>}/>
                 <Route path="/callback" element={<CallbackPage/>}/>
                 <Route path="/employees" element={
                     <RequireAuth>

@@ -44,4 +44,4 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> =
                 )}
             </Button>
         );
-};
+    };

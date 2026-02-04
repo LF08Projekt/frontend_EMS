@@ -1,7 +1,7 @@
 import React from 'react';
-import { Modal } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import type { Employee } from '../types/employee';
+import {Modal} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
+import type {Employee} from '../types/employee';
 import Tag from './Tag';
 import './DetailCard.css';
 
@@ -11,7 +11,7 @@ interface DetailCardProps {
     onClose: () => void;
 }
 
-export const DetailCard: React.FC<DetailCardProps> = ({ employee, isOpen, onClose }) => {
+export const DetailCard: React.FC<DetailCardProps> = ({employee, isOpen, onClose}) => {
     const navigate = useNavigate();
 
     if (!employee) return null;
@@ -29,7 +29,8 @@ export const DetailCard: React.FC<DetailCardProps> = ({ employee, isOpen, onClos
                 <div className="detail-card-container">
                     <div className="avatar-section">
                         <div className="avatar-circle">
-                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white"
+                                 strokeWidth="1.5">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                 <circle cx="12" cy="7" r="4"></circle>
                             </svg>
@@ -87,7 +88,7 @@ export const DetailCard: React.FC<DetailCardProps> = ({ employee, isOpen, onClos
                             <label>Qualifikationen</label>
                             <div className="qualification-tags">
                                 {employee.skillSet.map((qual, idx) => (
-                                    <Tag key={idx} label={qual.skill} />
+                                    <Tag key={idx} label={qual.skill}/>
                                 ))}
                             </div>
                         </div>

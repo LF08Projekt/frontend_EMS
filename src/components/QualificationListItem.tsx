@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Form} from 'react-bootstrap';
-import { FaTrash, FaPen, FaCheck, FaTimes } from 'react-icons/fa';
+import {FaTrash, FaPen, FaCheck, FaTimes} from 'react-icons/fa';
 
 type Qualification = {
     id: number;
@@ -13,7 +13,7 @@ type QualificationListItemProps = {
     onDelete?: (q: Qualification) => void;
 };
 
-const QualificationListItem: React.FC<QualificationListItemProps> = ({ qualification, onEdit, onDelete }) => {
+const QualificationListItem: React.FC<QualificationListItemProps> = ({qualification, onEdit, onDelete}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState(qualification.name);
 
@@ -45,7 +45,7 @@ const QualificationListItem: React.FC<QualificationListItemProps> = ({ qualifica
 
     return (
         <tr>
-            <td style={{width:'50%'}}>
+            <td style={{width: '50%'}}>
                 {isEditing ? (
                     <Form.Control
                         type="text"
@@ -63,19 +63,19 @@ const QualificationListItem: React.FC<QualificationListItemProps> = ({ qualifica
                 {isEditing ? (
                     <>
                         <Button variant="outline-success" size="sm" className="me-2" onClick={handleSaveEdit}>
-                            <FaCheck />
+                            <FaCheck/>
                         </Button>
                         <Button variant="outline-secondary" size="sm" className="me-2" onClick={handleCancelEdit}>
-                            <FaTimes />
+                            <FaTimes/>
                         </Button>
                     </>
                 ) : (
                     <>
                         <Button variant="outline-dark" size="sm" className="me-2" onClick={handleStartEdit}>
-                            <FaPen />
+                            <FaPen/>
                         </Button>
                         <Button variant="outline-danger" size="sm" onClick={() => onDelete?.(qualification)}>
-                            <FaTrash />
+                            <FaTrash/>
                         </Button>
                     </>
                 )}
